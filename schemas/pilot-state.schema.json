@@ -1,0 +1,490 @@
+{
+  "$ref": "#/definitions/pilot-state",
+  "definitions": {
+    "pilot-state": {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "type": "string",
+          "const": "live-pilot-0.1"
+        },
+        "version": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "budgetCents": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100000
+        },
+        "setupCents": {
+          "$ref": "#/definitions/pilot-state/properties/budgetCents"
+        },
+        "stopped": {
+          "type": "boolean"
+        },
+        "runs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "plan": {
+                "type": "object",
+                "properties": {
+                  "schemaVersion": {
+                    "type": "string",
+                    "const": "live-pilot-0.1"
+                  },
+                  "profile": {
+                    "type": "string",
+                    "const": "booking-link-pstn-smoke"
+                  },
+                  "id": {
+                    "type": "string",
+                    "pattern": "^[a-zA-Z0-9][a-zA-Z0-9_-]{0,79}$"
+                  },
+                  "kind": {
+                    "type": "string",
+                    "enum": [
+                      "readiness",
+                      "scored"
+                    ]
+                  },
+                  "authorizedUntil": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "configDigest": {
+                    "type": "string",
+                    "pattern": "^[a-f0-9]{64}$"
+                  },
+                  "caller": {
+                    "type": "object",
+                    "properties": {
+                      "recipientName": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 100
+                      }
+                    },
+                    "required": [
+                      "recipientName"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "oracle": {
+                    "type": "object",
+                    "properties": {
+                      "bookingUrl": {
+                        "type": "string",
+                        "format": "uri"
+                      }
+                    },
+                    "required": [
+                      "bookingUrl"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "reservationCents": {
+                    "$ref": "#/definitions/pilot-state/properties/budgetCents"
+                  },
+                  "limits": {
+                    "type": "object",
+                    "properties": {
+                      "callSeconds": {
+                        "type": "number",
+                        "const": 120
+                      },
+                      "settleSeconds": {
+                        "type": "number",
+                        "const": 60
+                      },
+                      "quarantineSeconds": {
+                        "type": "number",
+                        "const": 300
+                      },
+                      "maxTurns": {
+                        "type": "number",
+                        "const": 4
+                      },
+                      "maxRedials": {
+                        "type": "number",
+                        "const": 0
+                      }
+                    },
+                    "required": [
+                      "callSeconds",
+                      "settleSeconds",
+                      "quarantineSeconds",
+                      "maxTurns",
+                      "maxRedials"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "digest": {
+                    "type": "string",
+                    "pattern": "^[a-f0-9]{64}$"
+                  }
+                },
+                "required": [
+                  "schemaVersion",
+                  "profile",
+                  "id",
+                  "kind",
+                  "authorizedUntil",
+                  "configDigest",
+                  "caller",
+                  "oracle",
+                  "reservationCents",
+                  "limits",
+                  "digest"
+                ],
+                "additionalProperties": false
+              },
+              "admittedAt": {
+                "$ref": "#/definitions/pilot-state/properties/runs/items/properties/plan/properties/authorizedUntil"
+              },
+              "deadlineAt": {
+                "$ref": "#/definitions/pilot-state/properties/runs/items/properties/plan/properties/authorizedUntil"
+              },
+              "settleUntil": {
+                "$ref": "#/definitions/pilot-state/properties/runs/items/properties/plan/properties/authorizedUntil"
+              },
+              "quarantineUntil": {
+                "$ref": "#/definitions/pilot-state/properties/runs/items/properties/plan/properties/authorizedUntil"
+              },
+              "dispatch": {
+                "type": "string",
+                "enum": [
+                  "pending",
+                  "intent",
+                  "unknown",
+                  "confirmed"
+                ]
+              },
+              "callId": {
+                "type": "string",
+                "pattern": "^CA[a-f0-9]{32}$"
+              },
+              "callTerminal": {
+                "type": "boolean"
+              },
+              "cleanupComplete": {
+                "type": "boolean"
+              },
+              "observationHealthy": {
+                "type": "boolean"
+              },
+              "callerLimited": {
+                "type": "boolean"
+              },
+              "costCents": {
+                "anyOf": [
+                  {
+                    "$ref": "#/definitions/pilot-state/properties/budgetCents"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "budgetHoldFinal": {
+                "type": "boolean",
+                "default": false
+              },
+              "reconciliation": {
+                "anyOf": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "atMs": {
+                        "$ref": "#/definitions/pilot-state/properties/runs/items/properties/plan/properties/authorizedUntil"
+                      },
+                      "config": {
+                        "type": "object",
+                        "properties": {
+                          "accountSid": {
+                            "type": "string",
+                            "pattern": "^AC[a-f0-9]{32}$"
+                          },
+                          "callerNumber": {
+                            "type": "string",
+                            "pattern": "^\\+[1-9]\\d{7,14}$"
+                          },
+                          "targetNumber": {
+                            "type": "string",
+                            "pattern": "^\\+[1-9]\\d{7,14}$"
+                          },
+                          "expectedSender": {
+                            "type": "string",
+                            "pattern": "^\\+[1-9]\\d{7,14}$"
+                          }
+                        },
+                        "required": [
+                          "accountSid",
+                          "callerNumber",
+                          "targetNumber",
+                          "expectedSender"
+                        ],
+                        "additionalProperties": false
+                      },
+                      "call": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "pattern": "^CA[a-f0-9]{32}$"
+                          },
+                          "from": {
+                            "type": "string"
+                          },
+                          "to": {
+                            "type": "string"
+                          },
+                          "status": {
+                            "type": "string"
+                          },
+                          "terminal": {
+                            "type": "boolean"
+                          },
+                          "price": {
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          },
+                          "priceUnit": {
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          },
+                          "durationSeconds": {
+                            "anyOf": [
+                              {
+                                "type": "number",
+                                "minimum": 0
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "from",
+                          "to",
+                          "status",
+                          "terminal",
+                          "price",
+                          "priceUnit",
+                          "durationSeconds"
+                        ],
+                        "additionalProperties": false
+                      },
+                      "messages": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string",
+                              "pattern": "^SM[a-f0-9]{32}$"
+                            },
+                            "from": {
+                              "type": "string"
+                            },
+                            "to": {
+                              "type": "string"
+                            },
+                            "body": {
+                              "type": "string",
+                              "maxLength": 16384
+                            },
+                            "sentAt": {
+                              "$ref": "#/definitions/pilot-state/properties/runs/items/properties/plan/properties/authorizedUntil"
+                            },
+                            "price": {
+                              "type": [
+                                "string",
+                                "null"
+                              ]
+                            },
+                            "priceUnit": {
+                              "type": [
+                                "string",
+                                "null"
+                              ]
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "from",
+                            "to",
+                            "body",
+                            "sentAt",
+                            "price",
+                            "priceUnit"
+                          ],
+                          "additionalProperties": false
+                        },
+                        "maxItems": 100
+                      },
+                      "knownProviderCostCents": {
+                        "anyOf": [
+                          {
+                            "$ref": "#/definitions/pilot-state/properties/budgetCents"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      }
+                    },
+                    "required": [
+                      "atMs",
+                      "config",
+                      "call",
+                      "messages",
+                      "knownProviderCostCents"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "default": null
+              },
+              "reconciliationAttempts": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 10,
+                "default": 0
+              },
+              "callerStage": {
+                "type": "string",
+                "enum": [
+                  "greeting",
+                  "request",
+                  "consent",
+                  "done"
+                ]
+              },
+              "turns": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 4
+              },
+              "receipts": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "from": {
+                      "type": "string"
+                    },
+                    "to": {
+                      "type": "string"
+                    },
+                    "body": {
+                      "type": "string",
+                      "maxLength": 16384
+                    },
+                    "receivedAt": {
+                      "$ref": "#/definitions/pilot-state/properties/runs/items/properties/plan/properties/authorizedUntil"
+                    },
+                    "source": {
+                      "type": "string",
+                      "enum": [
+                        "webhook",
+                        "reconciliation"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "from",
+                    "to",
+                    "body",
+                    "receivedAt",
+                    "source"
+                  ],
+                  "additionalProperties": false
+                },
+                "maxItems": 100
+              },
+              "webhookDigests": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              },
+              "callbackReplies": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              },
+              "lastCallSequence": {
+                "type": "integer"
+              },
+              "errors": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "maxLength": 100
+                },
+                "maxItems": 100
+              },
+              "evidenceRefs": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "maxItems": 500
+              }
+            },
+            "required": [
+              "plan",
+              "admittedAt",
+              "deadlineAt",
+              "settleUntil",
+              "quarantineUntil",
+              "dispatch",
+              "callTerminal",
+              "cleanupComplete",
+              "observationHealthy",
+              "callerLimited",
+              "costCents",
+              "callerStage",
+              "turns",
+              "receipts",
+              "webhookDigests",
+              "callbackReplies",
+              "lastCallSequence",
+              "errors",
+              "evidenceRefs"
+            ],
+            "additionalProperties": false
+          },
+          "maxItems": 20
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "version",
+        "budgetCents",
+        "setupCents",
+        "stopped",
+        "runs"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

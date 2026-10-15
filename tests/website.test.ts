@@ -56,3 +56,12 @@ test('public specification excludes the source-specific inventory and licenses d
   assert.match(dataLicense, /fixtures\/\*\*\/\*\.json/);
   assert.match(dataLicense, /creativecommons.org\/publicdomain\/zero\/1.0\/legalcode.en/);
 });
+
+test('leaderboard provides a useful empty state and contribution path without JavaScript',()=>{
+ const html=readFileSync('website/leaderboard.html','utf8');
+ assert.match(html,/NO PUBLISHED RESULTS YET/);
+ assert.match(html,/unranked research result/);
+ assert.match(html,/issues\/new\/choose/);
+ assert.doesNotMatch(html,/mailto:|gmail\.com/);
+ assert.match(readFileSync('website/index.html','utf8'),/href="leaderboard.html"/);
+});

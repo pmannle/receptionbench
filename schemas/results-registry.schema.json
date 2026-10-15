@@ -1,0 +1,339 @@
+{
+  "$ref": "#/definitions/results-registry",
+  "definitions": {
+    "results-registry": {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "type": "string",
+          "const": "results-registry-0.1"
+        },
+        "entries": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9-]{0,79}$"
+              },
+              "system": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 500
+                  },
+                  "version": {
+                    "$ref": "#/definitions/results-registry/properties/entries/items/properties/system/properties/name"
+                  }
+                },
+                "required": [
+                  "name",
+                  "version"
+                ],
+                "additionalProperties": false
+              },
+              "date": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "cohort": {
+                "type": "object",
+                "properties": {
+                  "suiteDigest": {
+                    "type": "string",
+                    "pattern": "^[a-f0-9]{64}$"
+                  },
+                  "evaluatorVersion": {
+                    "$ref": "#/definitions/results-registry/properties/entries/items/properties/system/properties/name"
+                  },
+                  "profile": {
+                    "$ref": "#/definitions/results-registry/properties/entries/items/properties/system/properties/name"
+                  },
+                  "transport": {
+                    "type": "string",
+                    "enum": [
+                      "pstn",
+                      "webrtc",
+                      "sip"
+                    ]
+                  },
+                  "language": {
+                    "$ref": "#/definitions/results-registry/properties/entries/items/properties/system/properties/name"
+                  },
+                  "callerPolicy": {
+                    "$ref": "#/definitions/results-registry/properties/entries/items/properties/system/properties/name"
+                  },
+                  "observationMode": {
+                    "type": "string",
+                    "enum": [
+                      "black-box",
+                      "instrumented"
+                    ]
+                  },
+                  "track": {
+                    "type": "string",
+                    "enum": [
+                      "deterministic",
+                      "adversarial"
+                    ]
+                  }
+                },
+                "required": [
+                  "suiteDigest",
+                  "evaluatorVersion",
+                  "profile",
+                  "transport",
+                  "language",
+                  "callerPolicy",
+                  "observationMode",
+                  "track"
+                ],
+                "additionalProperties": false
+              },
+              "cohortDigest": {
+                "$ref": "#/definitions/results-registry/properties/entries/items/properties/cohort/properties/suiteDigest"
+              },
+              "ranked": {
+                "type": "boolean",
+                "const": false
+              },
+              "evidenceLevel": {
+                "type": "string",
+                "enum": [
+                  "self-reported",
+                  "benchmark-operated",
+                  "independently-audited"
+                ]
+              },
+              "operator": {
+                "$ref": "#/definitions/results-registry/properties/entries/items/properties/system/properties/name"
+              },
+              "reviewer": {
+                "$ref": "#/definitions/results-registry/properties/entries/items/properties/system/properties/name"
+              },
+              "relationship": {
+                "$ref": "#/definitions/results-registry/properties/entries/items/properties/system/properties/name"
+              },
+              "publication": {
+                "type": "object",
+                "properties": {
+                  "approved": {
+                    "type": "boolean",
+                    "const": true
+                  },
+                  "approvedAt": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "reference": {
+                    "type": "string",
+                    "format": "uri"
+                  }
+                },
+                "required": [
+                  "approved",
+                  "approvedAt",
+                  "reference"
+                ],
+                "additionalProperties": false
+              },
+              "counts": {
+                "type": "object",
+                "properties": {
+                  "scheduled": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 1000000
+                  },
+                  "pass": {
+                    "$ref": "#/definitions/results-registry/properties/entries/items/properties/counts/properties/scheduled"
+                  },
+                  "fail": {
+                    "$ref": "#/definitions/results-registry/properties/entries/items/properties/counts/properties/scheduled"
+                  },
+                  "inconclusive": {
+                    "$ref": "#/definitions/results-registry/properties/entries/items/properties/counts/properties/scheduled"
+                  },
+                  "infra_error": {
+                    "$ref": "#/definitions/results-registry/properties/entries/items/properties/counts/properties/scheduled"
+                  },
+                  "unsupported": {
+                    "$ref": "#/definitions/results-registry/properties/entries/items/properties/counts/properties/scheduled"
+                  }
+                },
+                "required": [
+                  "scheduled",
+                  "pass",
+                  "fail",
+                  "inconclusive",
+                  "infra_error",
+                  "unsupported"
+                ],
+                "additionalProperties": false
+              },
+              "scenarioResults": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "$ref": "#/definitions/results-registry/properties/entries/items/properties/system/properties/name"
+                    },
+                    "counts": {
+                      "$ref": "#/definitions/results-registry/properties/entries/items/properties/counts"
+                    },
+                    "wilson95": {
+                      "type": "array",
+                      "minItems": 2,
+                      "maxItems": 2,
+                      "items": [
+                        {
+                          "type": "number",
+                          "minimum": 0,
+                          "maximum": 1
+                        },
+                        {
+                          "type": "number",
+                          "minimum": 0,
+                          "maximum": 1
+                        }
+                      ]
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "counts",
+                    "wilson95"
+                  ],
+                  "additionalProperties": false
+                },
+                "minItems": 1
+              },
+              "criticalViolations": {
+                "$ref": "#/definitions/results-registry/properties/entries/items/properties/counts/properties/scheduled"
+              },
+              "evidenceCoverage": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "costs": {
+                "type": "object",
+                "properties": {
+                  "currency": {
+                    "type": "string",
+                    "const": "USD"
+                  },
+                  "knownCents": {
+                    "anyOf": [
+                      {
+                        "$ref": "#/definitions/results-registry/properties/entries/items/properties/counts/properties/scheduled"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "uncertain": {
+                    "type": "boolean"
+                  }
+                },
+                "required": [
+                  "currency",
+                  "knownCents",
+                  "uncertain"
+                ],
+                "additionalProperties": false
+              },
+              "reportDigest": {
+                "$ref": "#/definitions/results-registry/properties/entries/items/properties/cohort/properties/suiteDigest"
+              },
+              "artifacts": {
+                "type": "array",
+                "items": {
+                  "anyOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "access": {
+                          "type": "string",
+                          "const": "public"
+                        },
+                        "digest": {
+                          "$ref": "#/definitions/results-registry/properties/entries/items/properties/cohort/properties/suiteDigest"
+                        },
+                        "url": {
+                          "$ref": "#/definitions/results-registry/properties/entries/items/properties/publication/properties/reference"
+                        }
+                      },
+                      "required": [
+                        "access",
+                        "digest",
+                        "url"
+                      ],
+                      "additionalProperties": false
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "access": {
+                          "type": "string",
+                          "const": "restricted"
+                        },
+                        "digest": {
+                          "$ref": "#/definitions/results-registry/properties/entries/items/properties/cohort/properties/suiteDigest"
+                        },
+                        "instructions": {
+                          "$ref": "#/definitions/results-registry/properties/entries/items/properties/system/properties/name"
+                        }
+                      },
+                      "required": [
+                        "access",
+                        "digest",
+                        "instructions"
+                      ],
+                      "additionalProperties": false
+                    }
+                  ]
+                },
+                "minItems": 1,
+                "maxItems": 20
+              }
+            },
+            "required": [
+              "id",
+              "system",
+              "date",
+              "cohort",
+              "cohortDigest",
+              "ranked",
+              "evidenceLevel",
+              "operator",
+              "reviewer",
+              "relationship",
+              "publication",
+              "counts",
+              "scenarioResults",
+              "criticalViolations",
+              "evidenceCoverage",
+              "costs",
+              "reportDigest",
+              "artifacts"
+            ],
+            "additionalProperties": false
+          },
+          "maxItems": 1000
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "entries"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

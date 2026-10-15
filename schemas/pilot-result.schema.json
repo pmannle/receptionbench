@@ -1,0 +1,165 @@
+{
+  "$ref": "#/definitions/pilot-result",
+  "definitions": {
+    "pilot-result": {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "type": "string",
+          "const": "pilot-result-0.1"
+        },
+        "profile": {
+          "type": "string",
+          "const": "booking-link-pstn-smoke"
+        },
+        "transport": {
+          "type": "string",
+          "const": "pstn"
+        },
+        "kind": {
+          "type": "string",
+          "enum": [
+            "readiness",
+            "scored"
+          ]
+        },
+        "label": {
+          "type": "string",
+          "const": "Internal research · benchmark-operated pilot"
+        },
+        "ranked": {
+          "type": "boolean",
+          "const": false
+        },
+        "pilotId": {
+          "type": "string"
+        },
+        "planDigest": {
+          "type": "string"
+        },
+        "configurationDigest": {
+          "type": "string"
+        },
+        "evidenceDigest": {
+          "type": "string"
+        },
+        "verdict": {
+          "type": "string",
+          "enum": [
+            "pass",
+            "fail",
+            "inconclusive",
+            "infra_error",
+            "readiness_pass",
+            "readiness_fail"
+          ]
+        },
+        "reasons": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "counts": {
+          "type": "object",
+          "properties": {
+            "scheduled": {
+              "type": "number"
+            },
+            "valid": {
+              "type": "number"
+            },
+            "pass": {
+              "type": "number"
+            },
+            "fail": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "scheduled",
+            "valid",
+            "pass",
+            "fail"
+          ],
+          "additionalProperties": false
+        },
+        "cleanupComplete": {
+          "type": "boolean"
+        },
+        "observationHealthy": {
+          "type": "boolean"
+        },
+        "callerPolicy": {
+          "type": "string",
+          "const": "twiml-bounded-v0.1"
+        },
+        "callerLimited": {
+          "type": "boolean"
+        },
+        "costs": {
+          "type": "object",
+          "properties": {
+            "currency": {
+              "type": "string",
+              "const": "USD"
+            },
+            "reservationCents": {
+              "type": "number"
+            },
+            "knownSubaccountCostCents": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "finalCostCents": {
+              "type": "null"
+            },
+            "uncertain": {
+              "type": "boolean",
+              "const": true
+            }
+          },
+          "required": [
+            "currency",
+            "reservationCents",
+            "knownSubaccountCostCents",
+            "finalCostCents",
+            "uncertain"
+          ],
+          "additionalProperties": false
+        },
+        "limitations": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "profile",
+        "transport",
+        "kind",
+        "label",
+        "ranked",
+        "pilotId",
+        "planDigest",
+        "configurationDigest",
+        "evidenceDigest",
+        "verdict",
+        "reasons",
+        "counts",
+        "cleanupComplete",
+        "observationHealthy",
+        "callerPolicy",
+        "callerLimited",
+        "costs",
+        "limitations"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

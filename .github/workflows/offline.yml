@@ -21,3 +21,24 @@ jobs:
       - run: git diff --exit-code -- schemas fixtures scenarios
       - run: node dist/src/cli.js validate scenarios/public
       - run: node dist/src/cli.js adapter check --adapter fake
+
+  pilot-worker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.23.1
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            services/pilot/package-lock.json
+      - run: npm ci --ignore-scripts
+      - run: npm ci --ignore-scripts
+        working-directory: services/pilot
+      - run: npm run typecheck
+        working-directory: services/pilot
+      - run: npm test
+        working-directory: services/pilot
+        env:
+          WRANGLER_SEND_METRICS: 'false'

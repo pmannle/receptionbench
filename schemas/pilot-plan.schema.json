@@ -1,0 +1,121 @@
+{
+  "$ref": "#/definitions/pilot-plan",
+  "definitions": {
+    "pilot-plan": {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "type": "string",
+          "const": "live-pilot-0.1"
+        },
+        "profile": {
+          "type": "string",
+          "const": "booking-link-pstn-smoke"
+        },
+        "id": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9][a-zA-Z0-9_-]{0,79}$"
+        },
+        "kind": {
+          "type": "string",
+          "enum": [
+            "readiness",
+            "scored"
+          ]
+        },
+        "authorizedUntil": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "configDigest": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "caller": {
+          "type": "object",
+          "properties": {
+            "recipientName": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100
+            }
+          },
+          "required": [
+            "recipientName"
+          ],
+          "additionalProperties": false
+        },
+        "oracle": {
+          "type": "object",
+          "properties": {
+            "bookingUrl": {
+              "type": "string",
+              "format": "uri"
+            }
+          },
+          "required": [
+            "bookingUrl"
+          ],
+          "additionalProperties": false
+        },
+        "reservationCents": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100000
+        },
+        "limits": {
+          "type": "object",
+          "properties": {
+            "callSeconds": {
+              "type": "number",
+              "const": 120
+            },
+            "settleSeconds": {
+              "type": "number",
+              "const": 60
+            },
+            "quarantineSeconds": {
+              "type": "number",
+              "const": 300
+            },
+            "maxTurns": {
+              "type": "number",
+              "const": 4
+            },
+            "maxRedials": {
+              "type": "number",
+              "const": 0
+            }
+          },
+          "required": [
+            "callSeconds",
+            "settleSeconds",
+            "quarantineSeconds",
+            "maxTurns",
+            "maxRedials"
+          ],
+          "additionalProperties": false
+        },
+        "digest": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "profile",
+        "id",
+        "kind",
+        "authorizedUntil",
+        "configDigest",
+        "caller",
+        "oracle",
+        "reservationCents",
+        "limits",
+        "digest"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}
