@@ -1,0 +1,549 @@
+{
+  "$ref": "#/definitions/plan",
+  "definitions": {
+    "plan": {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "type": "string",
+          "const": "0.1"
+        },
+        "suiteId": {
+          "type": "string",
+          "const": "core-offline-v0.1"
+        },
+        "profile": {
+          "type": "string",
+          "const": "core-offline"
+        },
+        "transport": {
+          "type": "string",
+          "const": "fake"
+        },
+        "track": {
+          "type": "string",
+          "const": "deterministic"
+        },
+        "repetitions": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000
+        },
+        "seed": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2147483647
+        },
+        "fault": {
+          "type": "string",
+          "enum": [
+            "none",
+            "acceptance-only",
+            "wrong-recipient",
+            "duplicate-text",
+            "late-delivery",
+            "broken-bridge",
+            "no-return",
+            "privacy",
+            "missing-evidence",
+            "cleanup-error",
+            "crash",
+            "unsupported"
+          ]
+        },
+        "limits": {
+          "type": "object",
+          "properties": {
+            "maxTrials": {
+              "type": "number",
+              "const": 10000
+            },
+            "maxCostUsd": {
+              "type": "number",
+              "const": 0
+            },
+            "maxCalls": {
+              "type": "number",
+              "const": 0
+            },
+            "maxMessages": {
+              "type": "number",
+              "const": 0
+            },
+            "maxModelTokens": {
+              "type": "number",
+              "const": 0
+            },
+            "maxRetries": {
+              "type": "number",
+              "const": 0
+            }
+          },
+          "required": [
+            "maxTrials",
+            "maxCostUsd",
+            "maxCalls",
+            "maxMessages",
+            "maxModelTokens",
+            "maxRetries"
+          ],
+          "additionalProperties": false
+        },
+        "fixture": {
+          "type": "object",
+          "properties": {
+            "schemaVersion": {
+              "type": "string",
+              "const": "0.1"
+            },
+            "fixtureId": {
+              "type": "string",
+              "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._:-]{0,127}$"
+            },
+            "contentHash": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            "publicFacts": {
+              "type": "object",
+              "properties": {
+                "hours": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 4096
+                },
+                "businessName": {
+                  "$ref": "#/definitions/plan/properties/fixture/properties/publicFacts/properties/hours"
+                },
+                "timezone": {
+                  "$ref": "#/definitions/plan/properties/fixture/properties/publicFacts/properties/hours"
+                }
+              },
+              "required": [
+                "hours",
+                "businessName",
+                "timezone"
+              ],
+              "additionalProperties": false
+            },
+            "directory": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "$ref": "#/definitions/plan/properties/fixture/properties/fixtureId"
+                  },
+                  "name": {
+                    "$ref": "#/definitions/plan/properties/fixture/properties/publicFacts/properties/hours"
+                  },
+                  "service": {
+                    "$ref": "#/definitions/plan/properties/fixture/properties/publicFacts/properties/hours"
+                  },
+                  "bookingUrl": {
+                    "type": "string",
+                    "format": "uri"
+                  }
+                },
+                "required": [
+                  "id",
+                  "name",
+                  "service",
+                  "bookingUrl"
+                ],
+                "additionalProperties": false
+              },
+              "minItems": 1
+            },
+            "policies": {
+              "type": "object",
+              "properties": {
+                "requireTextConsent": {
+                  "type": "boolean",
+                  "const": true
+                },
+                "disclosePrivateContacts": {
+                  "type": "boolean",
+                  "const": false
+                }
+              },
+              "required": [
+                "requireTextConsent",
+                "disclosePrivateContacts"
+              ],
+              "additionalProperties": false
+            },
+            "endpointRefs": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/plan/properties/fixture/properties/fixtureId"
+              },
+              "minItems": 1
+            },
+            "allowedHosts": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "minItems": 1
+            }
+          },
+          "required": [
+            "schemaVersion",
+            "fixtureId",
+            "contentHash",
+            "publicFacts",
+            "directory",
+            "policies",
+            "endpointRefs",
+            "allowedHosts"
+          ],
+          "additionalProperties": false
+        },
+        "scenarios": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "schemaVersion": {
+                "type": "string",
+                "const": "0.1"
+              },
+              "id": {
+                "$ref": "#/definitions/plan/properties/fixture/properties/fixtureId"
+              },
+              "version": {
+                "type": "string",
+                "const": "1.0.0"
+              },
+              "category": {
+                "type": "string",
+                "enum": [
+                  "facts",
+                  "routing",
+                  "booking-link",
+                  "messages",
+                  "transfer",
+                  "policy"
+                ]
+              },
+              "profile": {
+                "type": "string",
+                "const": "core-offline"
+              },
+              "track": {
+                "type": "string",
+                "const": "deterministic"
+              },
+              "fixtureId": {
+                "$ref": "#/definitions/plan/properties/fixture/properties/fixtureId"
+              },
+              "requires": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "business.info",
+                    "routing.team",
+                    "booking.link",
+                    "message.deliver",
+                    "callback.request",
+                    "callback.execute",
+                    "transfer.warm",
+                    "transfer.return",
+                    "booking.mutate"
+                  ]
+                },
+                "minItems": 1
+              },
+              "clock": {
+                "type": "object",
+                "properties": {
+                  "businessTime": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "zone": {
+                    "$ref": "#/definitions/plan/properties/fixture/properties/publicFacts/properties/hours"
+                  }
+                },
+                "required": [
+                  "businessTime",
+                  "zone"
+                ],
+                "additionalProperties": false
+              },
+              "goal": {
+                "$ref": "#/definitions/plan/properties/fixture/properties/publicFacts/properties/hours"
+              },
+              "request": {
+                "type": "object",
+                "properties": {
+                  "action": {
+                    "type": "string",
+                    "enum": [
+                      "facts",
+                      "route",
+                      "booking-link",
+                      "message",
+                      "callback",
+                      "transfer",
+                      "return",
+                      "privacy"
+                    ]
+                  },
+                  "recipientRef": {
+                    "$ref": "#/definitions/plan/properties/fixture/properties/fixtureId"
+                  },
+                  "service": {
+                    "$ref": "#/definitions/plan/properties/fixture/properties/publicFacts/properties/hours"
+                  },
+                  "content": {
+                    "$ref": "#/definitions/plan/properties/fixture/properties/publicFacts/properties/hours"
+                  },
+                  "consent": {
+                    "type": "boolean"
+                  },
+                  "callerNumberRef": {
+                    "$ref": "#/definitions/plan/properties/fixture/properties/fixtureId"
+                  }
+                },
+                "required": [
+                  "action"
+                ],
+                "additionalProperties": false
+              },
+              "limits": {
+                "type": "object",
+                "properties": {
+                  "durationMs": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 86400000
+                  },
+                  "settleMs": {
+                    "$ref": "#/definitions/plan/properties/scenarios/items/properties/limits/properties/durationMs"
+                  },
+                  "maxCostUsd": {
+                    "type": "number",
+                    "const": 0
+                  }
+                },
+                "required": [
+                  "durationMs",
+                  "settleMs",
+                  "maxCostUsd"
+                ],
+                "additionalProperties": false
+              },
+              "resetStrategy": {
+                "type": "string",
+                "const": "fresh-namespace"
+              },
+              "severity": {
+                "type": "string",
+                "enum": [
+                  "normal",
+                  "critical"
+                ]
+              },
+              "oracle": {
+                "type": "object",
+                "properties": {
+                  "all": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "$ref": "#/definitions/plan/properties/fixture/properties/fixtureId"
+                        },
+                        "predicate": {
+                          "type": "string",
+                          "enum": [
+                            "fact.observed",
+                            "routing.selected",
+                            "message.delivered",
+                            "callback.requested",
+                            "callback.completed",
+                            "transfer.requested",
+                            "transfer.accepted",
+                            "transfer.bridged",
+                            "transfer.returned",
+                            "booking.created",
+                            "booking.changed",
+                            "booking.cancelled",
+                            "policy.refused",
+                            "private_contact.disclosed"
+                          ]
+                        },
+                        "authority": {
+                          "type": "string",
+                          "enum": [
+                            "vendor",
+                            "provider",
+                            "benchmark-sink"
+                          ]
+                        },
+                        "match": {
+                          "type": "object",
+                          "additionalProperties": {
+                            "anyOf": [
+                              {
+                                "$ref": "#/definitions/plan/properties/fixture/properties/publicFacts/properties/hours"
+                              },
+                              {
+                                "type": "boolean"
+                              },
+                              {
+                                "type": "number"
+                              }
+                            ]
+                          }
+                        },
+                        "count": {
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 100
+                        },
+                        "withinMs": {
+                          "$ref": "#/definitions/plan/properties/scenarios/items/properties/limits/properties/durationMs"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "predicate",
+                        "authority",
+                        "match",
+                        "count",
+                        "withinMs"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "minItems": 1
+                  },
+                  "forbidden": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "$ref": "#/definitions/plan/properties/fixture/properties/fixtureId"
+                        },
+                        "predicate": {
+                          "type": "string",
+                          "enum": [
+                            "fact.observed",
+                            "routing.selected",
+                            "message.delivered",
+                            "callback.requested",
+                            "callback.completed",
+                            "transfer.requested",
+                            "transfer.accepted",
+                            "transfer.bridged",
+                            "transfer.returned",
+                            "booking.created",
+                            "booking.changed",
+                            "booking.cancelled",
+                            "policy.refused",
+                            "private_contact.disclosed"
+                          ]
+                        },
+                        "match": {
+                          "$ref": "#/definitions/plan/properties/scenarios/items/properties/oracle/properties/all/items/properties/match"
+                        },
+                        "severity": {
+                          "type": "string",
+                          "enum": [
+                            "normal",
+                            "critical"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "predicate",
+                        "match",
+                        "severity"
+                      ],
+                      "additionalProperties": false
+                    }
+                  }
+                },
+                "required": [
+                  "all",
+                  "forbidden"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "schemaVersion",
+              "id",
+              "version",
+              "category",
+              "profile",
+              "track",
+              "fixtureId",
+              "requires",
+              "clock",
+              "goal",
+              "request",
+              "limits",
+              "resetStrategy",
+              "severity",
+              "oracle"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 10,
+          "maxItems": 10
+        },
+        "suiteDigest": {
+          "type": "string"
+        },
+        "adapterConfigDigest": {
+          "type": "string"
+        },
+        "evaluatorVersion": {
+          "type": "string",
+          "const": "evaluator-0.1.0"
+        },
+        "exclusionRule": {
+          "type": "string",
+          "const": "infra_error and inconclusive excluded; unsupported fails"
+        },
+        "completionGate": {
+          "type": "number",
+          "const": 0.95
+        },
+        "digest": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "suiteId",
+        "profile",
+        "transport",
+        "track",
+        "repetitions",
+        "seed",
+        "fault",
+        "limits",
+        "fixture",
+        "scenarios",
+        "suiteDigest",
+        "adapterConfigDigest",
+        "evaluatorVersion",
+        "exclusionRule",
+        "completionGate",
+        "digest"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

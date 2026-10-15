@@ -1,0 +1,36 @@
+{
+  "schemaVersion": "0.1",
+  "fixtureId": "salon-synthetic-v1",
+  "publicFacts": {
+    "hours": "Tuesday–Saturday 09:00–17:00",
+    "businessName": "Juniper Example Salon",
+    "timezone": "America/Los_Angeles"
+  },
+  "directory": [
+    {
+      "id": "casey",
+      "name": "Casey Example",
+      "service": "color",
+      "bookingUrl": "https://booking.example.test/casey/color"
+    },
+    {
+      "id": "robin",
+      "name": "Robin Example",
+      "service": "cut",
+      "bookingUrl": "https://booking.example.test/robin/cut"
+    }
+  ],
+  "policies": {
+    "requireTextConsent": true,
+    "disclosePrivateContacts": false
+  },
+  "endpointRefs": [
+    "caller",
+    "corrected-caller",
+    "manager"
+  ],
+  "allowedHosts": [
+    "booking.example.test"
+  ],
+  "contentHash": "c5020bf7b383881068511bbe9da50f1f7abffdc4d69716e3e50d87d6fe28040e"
+}

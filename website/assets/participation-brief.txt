@@ -1,0 +1,25 @@
+# ReceptionBench participation brief
+
+Status: local preparation draft. No information has been submitted.
+
+Role: To be supplied
+System or team: To be supplied
+Proposed profile: To be supplied
+
+## Scope
+English-language AI reception, synthetic salon fixtures first. The available scored runner uses a fake adapter; all its delivery, transfer and audio evidence is simulated. M2 adapter integration is underway. This brief does not enroll a system or schedule a live run.
+
+## Prepare
+- Declare supported and unsupported capabilities.
+- Map the neutral adapter lifecycle; keep proprietary schemas private.
+- Use a fresh synthetic namespace and deterministic, scoped cleanup.
+- Separate business facts from evaluator-only oracle assertions.
+- Describe authoritative recipient/state evidence; vendor telemetry alone is insufficient.
+- Record versions, configuration digests, timeouts and exclusions.
+- Propose public cases or verifier counterexamples without customer data.
+
+## Fair participation
+Receptionaly is the initial reference system. All systems receive the same published suite and scoring rules. A second vendor, independent hidden-test custody, real voice transport and independent certification are pending. Code and documentation use Apache-2.0; independently authored synthetic fixture/scenario data use CC0-1.0. Private adapters and audits are excluded.
+
+## Next step
+Review CONTRIBUTING.md, docs/adapter-authoring.md and docs/vendor-participation.md in the checkout. Propose a contribution at https://github.com/pmannle/receptionbench/issues/new/choose or email this brief to phil.mannle@gmail.com. Sending is your choice; downloading this file does not submit it or register a system.

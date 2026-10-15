@@ -1,0 +1,118 @@
+{
+  "$ref": "#/definitions/fixture",
+  "definitions": {
+    "fixture": {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "type": "string",
+          "const": "0.1"
+        },
+        "fixtureId": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._:-]{0,127}$"
+        },
+        "contentHash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "publicFacts": {
+          "type": "object",
+          "properties": {
+            "hours": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 4096
+            },
+            "businessName": {
+              "$ref": "#/definitions/fixture/properties/publicFacts/properties/hours"
+            },
+            "timezone": {
+              "$ref": "#/definitions/fixture/properties/publicFacts/properties/hours"
+            }
+          },
+          "required": [
+            "hours",
+            "businessName",
+            "timezone"
+          ],
+          "additionalProperties": false
+        },
+        "directory": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "$ref": "#/definitions/fixture/properties/fixtureId"
+              },
+              "name": {
+                "$ref": "#/definitions/fixture/properties/publicFacts/properties/hours"
+              },
+              "service": {
+                "$ref": "#/definitions/fixture/properties/publicFacts/properties/hours"
+              },
+              "bookingUrl": {
+                "type": "string",
+                "format": "uri"
+              }
+            },
+            "required": [
+              "id",
+              "name",
+              "service",
+              "bookingUrl"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 1
+        },
+        "policies": {
+          "type": "object",
+          "properties": {
+            "requireTextConsent": {
+              "type": "boolean",
+              "const": true
+            },
+            "disclosePrivateContacts": {
+              "type": "boolean",
+              "const": false
+            }
+          },
+          "required": [
+            "requireTextConsent",
+            "disclosePrivateContacts"
+          ],
+          "additionalProperties": false
+        },
+        "endpointRefs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/fixture/properties/fixtureId"
+          },
+          "minItems": 1
+        },
+        "allowedHosts": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "fixtureId",
+        "contentHash",
+        "publicFacts",
+        "directory",
+        "policies",
+        "endpointRefs",
+        "allowedHosts"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

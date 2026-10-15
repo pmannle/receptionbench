@@ -1,0 +1,40 @@
+{
+  "name": "receptionbench",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=18.20.8 <19"
+  },
+  "packageManager": "npm@10.8.2",
+  "bin": {
+    "receptionbench": "dist/src/cli.js"
+  },
+  "exports": {
+    ".": "./dist/src/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "typecheck": "tsc --noEmit",
+    "test": "tsc && node --test dist/tests/*.test.js",
+    "bench": "node dist/src/cli.js",
+    "schemas": "node dist/scripts/export-schemas.js",
+    "site:preview": "python3 -m http.server 4173 --bind 127.0.0.1 --directory website"
+  },
+  "dependencies": {
+    "zod": "4.1.5",
+    "zod-to-json-schema": "3.25.2"
+  },
+  "devDependencies": {
+    "@types/node": "22.19.3",
+    "typescript": "5.8.3"
+  },
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pmannle/receptionbench.git"
+  },
+  "bugs": {
+    "url": "https://github.com/pmannle/receptionbench/issues"
+  }
+}

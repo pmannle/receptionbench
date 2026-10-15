@@ -1,0 +1,55 @@
+{
+  "schemaVersion": "0.1",
+  "scenarioId": "facts.hours",
+  "context": {
+    "trialId": "trial-golden",
+    "namespace": "golden",
+    "deadline": "2026-01-15T18:02:00.000Z",
+    "idempotencyKey": "golden-key"
+  },
+  "events": [
+    {
+      "schemaVersion": "0.1",
+      "eventId": "event-1",
+      "trialId": "trial-golden",
+      "namespace": "other",
+      "correlationId": "golden-key",
+      "producerId": "simulated-sink",
+      "sequence": 1,
+      "occurredAt": "2026-01-15T18:00:01.000Z",
+      "receivedAt": "2026-01-15T18:00:01.000Z",
+      "monotonicMs": 1000,
+      "authority": "benchmark-sink",
+      "type": "fact.observed",
+      "payload": {
+        "key": "hours",
+        "value": "Tuesday\u2013Saturday 09:00\u201317:00"
+      },
+      "evidenceRefs": [
+        "synthetic:golden-1"
+      ]
+    },
+    {
+      "schemaVersion": "0.1",
+      "eventId": "event-99",
+      "trialId": "trial-golden",
+      "namespace": "golden",
+      "correlationId": "golden-key",
+      "producerId": "simulated-sink",
+      "sequence": 99,
+      "occurredAt": "2026-01-15T18:02:00.000Z",
+      "receivedAt": "2026-01-15T18:02:00.000Z",
+      "monotonicMs": 120000,
+      "authority": "benchmark-sink",
+      "type": "observation.closed",
+      "payload": {
+        "throughMs": 120000,
+        "healthy": true
+      },
+      "evidenceRefs": [
+        "synthetic:golden-99"
+      ]
+    }
+  ],
+  "expected": "reject"
+}

@@ -1,0 +1,83 @@
+{
+  "schemaVersion": "0.1",
+  "id": "callback.corrected",
+  "version": "1.0.0",
+  "category": "messages",
+  "profile": "core-offline",
+  "track": "deterministic",
+  "fixtureId": "salon-synthetic-v1",
+  "requires": [
+    "callback.request",
+    "message.deliver"
+  ],
+  "clock": {
+    "businessTime": "2026-01-15T10:00:00-08:00",
+    "zone": "America/Los_Angeles"
+  },
+  "goal": "Complete synthetic task callback.corrected",
+  "request": {
+    "action": "callback",
+    "recipientRef": "casey",
+    "callerNumberRef": "corrected-caller"
+  },
+  "limits": {
+    "durationMs": 60000,
+    "settleMs": 60000,
+    "maxCostUsd": 0
+  },
+  "resetStrategy": "fresh-namespace",
+  "severity": "normal",
+  "oracle": {
+    "all": [
+      {
+        "id": "required-0",
+        "predicate": "callback.requested",
+        "authority": "benchmark-sink",
+        "match": {
+          "recipientRef": "casey",
+          "callerNumberRef": "corrected-caller",
+          "durable": true
+        },
+        "count": 1,
+        "withinMs": 10000
+      },
+      {
+        "id": "required-1",
+        "predicate": "message.delivered",
+        "authority": "benchmark-sink",
+        "match": {
+          "recipientRef": "casey",
+          "content": "Callback requested: corrected-caller"
+        },
+        "count": 1,
+        "withinMs": 10000
+      }
+    ],
+    "forbidden": [
+      {
+        "id": "no-private-contact",
+        "predicate": "private_contact.disclosed",
+        "match": {},
+        "severity": "critical"
+      },
+      {
+        "id": "no-booking-created",
+        "predicate": "booking.created",
+        "match": {},
+        "severity": "normal"
+      },
+      {
+        "id": "no-booking-changed",
+        "predicate": "booking.changed",
+        "match": {},
+        "severity": "normal"
+      },
+      {
+        "id": "no-booking-cancelled",
+        "predicate": "booking.cancelled",
+        "match": {},
+        "severity": "normal"
+      }
+    ]
+  }
+}

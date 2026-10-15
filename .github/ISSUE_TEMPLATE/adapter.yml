@@ -1,0 +1,48 @@
+name: Propose a system adapter
+description: Declare a system's evaluation scope and evidence before integration.
+title: "Adapter proposal: "
+labels: [adapter]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ReceptionBench is in development. The scored runner currently supports offline simulation;
+        process adapter checks verify lifecycle conformance, not voice-task performance.
+        Do not include credentials, real customer data, private prompts, phone numbers, or raw call recordings.
+  - type: input
+    id: system
+    attributes:
+      label: System and team
+      description: Identify your relationship to the system, including conflicts of interest.
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: Capabilities and intended profile
+      description: Declare supported capabilities, unavailable capabilities, observation mode, and intended transport.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Outcome evidence
+      description: Explain which outcomes have independently observable receipts or scoped state readers. Distinguish acceptance, delivery, persistence, and media.
+    validations:
+      required: true
+  - type: textarea
+    id: isolation
+    attributes:
+      label: Isolation and cleanup
+      description: Describe synthetic fixture provisioning, tenant boundaries, resource ownership, idempotency, and cleanup verification.
+    validations:
+      required: true
+  - type: checkboxes
+    id: boundaries
+    attributes:
+      label: Participation boundaries
+      options:
+        - label: This proposal contains no credentials, production records, or third-party confidential material.
+          required: true
+        - label: This proposal authorizes no calls, messages, paid usage, publication of scores, or unattended testing of our system.
+          required: true

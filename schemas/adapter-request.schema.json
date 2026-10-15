@@ -1,0 +1,259 @@
+{
+  "$ref": "#/definitions/adapter-request",
+  "definitions": {
+    "adapter-request": {
+      "anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "protocolVersion": {
+              "type": "string",
+              "const": "0.1"
+            },
+            "operation": {
+              "type": "string",
+              "const": "describe"
+            }
+          },
+          "required": [
+            "protocolVersion",
+            "operation"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "protocolVersion": {
+              "$ref": "#/definitions/adapter-request/anyOf/0/properties/protocolVersion"
+            },
+            "operation": {
+              "type": "string",
+              "const": "prepare"
+            },
+            "context": {
+              "type": "object",
+              "properties": {
+                "trialId": {
+                  "type": "string",
+                  "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._:-]{0,127}$"
+                },
+                "namespace": {
+                  "$ref": "#/definitions/adapter-request/anyOf/1/properties/context/properties/trialId"
+                },
+                "deadline": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "idempotencyKey": {
+                  "$ref": "#/definitions/adapter-request/anyOf/1/properties/context/properties/trialId"
+                }
+              },
+              "required": [
+                "trialId",
+                "namespace",
+                "deadline",
+                "idempotencyKey"
+              ],
+              "additionalProperties": false
+            },
+            "fixture": {
+              "type": "object",
+              "properties": {
+                "schemaVersion": {
+                  "type": "string",
+                  "const": "0.1"
+                },
+                "fixtureId": {
+                  "$ref": "#/definitions/adapter-request/anyOf/1/properties/context/properties/trialId"
+                },
+                "contentHash": {
+                  "type": "string",
+                  "pattern": "^[a-f0-9]{64}$"
+                },
+                "publicFacts": {
+                  "type": "object",
+                  "properties": {
+                    "hours": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 4096
+                    },
+                    "businessName": {
+                      "$ref": "#/definitions/adapter-request/anyOf/1/properties/fixture/properties/publicFacts/properties/hours"
+                    },
+                    "timezone": {
+                      "$ref": "#/definitions/adapter-request/anyOf/1/properties/fixture/properties/publicFacts/properties/hours"
+                    }
+                  },
+                  "required": [
+                    "hours",
+                    "businessName",
+                    "timezone"
+                  ],
+                  "additionalProperties": false
+                },
+                "directory": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "$ref": "#/definitions/adapter-request/anyOf/1/properties/context/properties/trialId"
+                      },
+                      "name": {
+                        "$ref": "#/definitions/adapter-request/anyOf/1/properties/fixture/properties/publicFacts/properties/hours"
+                      },
+                      "service": {
+                        "$ref": "#/definitions/adapter-request/anyOf/1/properties/fixture/properties/publicFacts/properties/hours"
+                      },
+                      "bookingUrl": {
+                        "type": "string",
+                        "format": "uri"
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "name",
+                      "service",
+                      "bookingUrl"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "minItems": 1
+                },
+                "policies": {
+                  "type": "object",
+                  "properties": {
+                    "requireTextConsent": {
+                      "type": "boolean",
+                      "const": true
+                    },
+                    "disclosePrivateContacts": {
+                      "type": "boolean",
+                      "const": false
+                    }
+                  },
+                  "required": [
+                    "requireTextConsent",
+                    "disclosePrivateContacts"
+                  ],
+                  "additionalProperties": false
+                },
+                "endpointRefs": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/adapter-request/anyOf/1/properties/context/properties/trialId"
+                  },
+                  "minItems": 1
+                },
+                "allowedHosts": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "minItems": 1
+                }
+              },
+              "required": [
+                "schemaVersion",
+                "fixtureId",
+                "contentHash",
+                "publicFacts",
+                "directory",
+                "policies",
+                "endpointRefs",
+                "allowedHosts"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "protocolVersion",
+            "operation",
+            "context",
+            "fixture"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "protocolVersion": {
+              "$ref": "#/definitions/adapter-request/anyOf/0/properties/protocolVersion"
+            },
+            "operation": {
+              "type": "string",
+              "const": "health"
+            },
+            "context": {
+              "$ref": "#/definitions/adapter-request/anyOf/1/properties/context"
+            },
+            "targetId": {
+              "$ref": "#/definitions/adapter-request/anyOf/1/properties/context/properties/trialId"
+            }
+          },
+          "required": [
+            "protocolVersion",
+            "operation",
+            "context",
+            "targetId"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "protocolVersion": {
+              "$ref": "#/definitions/adapter-request/anyOf/0/properties/protocolVersion"
+            },
+            "operation": {
+              "type": "string",
+              "const": "snapshot"
+            },
+            "context": {
+              "$ref": "#/definitions/adapter-request/anyOf/1/properties/context"
+            },
+            "targetId": {
+              "$ref": "#/definitions/adapter-request/anyOf/1/properties/context/properties/trialId"
+            }
+          },
+          "required": [
+            "protocolVersion",
+            "operation",
+            "context",
+            "targetId"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "protocolVersion": {
+              "$ref": "#/definitions/adapter-request/anyOf/0/properties/protocolVersion"
+            },
+            "operation": {
+              "type": "string",
+              "const": "cleanup"
+            },
+            "context": {
+              "$ref": "#/definitions/adapter-request/anyOf/1/properties/context"
+            },
+            "targetId": {
+              "$ref": "#/definitions/adapter-request/anyOf/1/properties/context/properties/trialId"
+            }
+          },
+          "required": [
+            "protocolVersion",
+            "operation",
+            "context",
+            "targetId"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

@@ -1,0 +1,54 @@
+{
+  "$ref": "#/definitions/process-adapter-config",
+  "definitions": {
+    "process-adapter-config": {
+      "type": "object",
+      "properties": {
+        "protocolVersion": {
+          "type": "string",
+          "const": "0.1"
+        },
+        "command": {
+          "type": "string",
+          "minLength": 1
+        },
+        "args": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "maxLength": 4096
+          },
+          "maxItems": 64,
+          "default": []
+        },
+        "environmentRefs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[A-Z_][A-Z0-9_]*$"
+          },
+          "maxItems": 32,
+          "default": []
+        },
+        "timeoutMs": {
+          "type": "integer",
+          "minimum": 10,
+          "maximum": 60000,
+          "default": 10000
+        },
+        "maxOutputBytes": {
+          "type": "integer",
+          "minimum": 256,
+          "maximum": 1048576,
+          "default": 65536
+        }
+      },
+      "required": [
+        "protocolVersion",
+        "command"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

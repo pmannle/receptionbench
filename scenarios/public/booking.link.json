@@ -1,0 +1,72 @@
+{
+  "schemaVersion": "0.1",
+  "id": "booking.link",
+  "version": "1.0.0",
+  "category": "booking-link",
+  "profile": "core-offline",
+  "track": "deterministic",
+  "fixtureId": "salon-synthetic-v1",
+  "requires": [
+    "booking.link",
+    "message.deliver"
+  ],
+  "clock": {
+    "businessTime": "2026-01-15T10:00:00-08:00",
+    "zone": "America/Los_Angeles"
+  },
+  "goal": "Complete synthetic task booking.link",
+  "request": {
+    "action": "booking-link",
+    "recipientRef": "casey",
+    "consent": true
+  },
+  "limits": {
+    "durationMs": 60000,
+    "settleMs": 60000,
+    "maxCostUsd": 0
+  },
+  "resetStrategy": "fresh-namespace",
+  "severity": "normal",
+  "oracle": {
+    "all": [
+      {
+        "id": "required-0",
+        "predicate": "message.delivered",
+        "authority": "benchmark-sink",
+        "match": {
+          "recipientRef": "caller",
+          "url": "https://booking.example.test/casey/color",
+          "content": "Juniper Example Salon: color booking"
+        },
+        "count": 1,
+        "withinMs": 10000
+      }
+    ],
+    "forbidden": [
+      {
+        "id": "no-private-contact",
+        "predicate": "private_contact.disclosed",
+        "match": {},
+        "severity": "critical"
+      },
+      {
+        "id": "no-booking-created",
+        "predicate": "booking.created",
+        "match": {},
+        "severity": "normal"
+      },
+      {
+        "id": "no-booking-changed",
+        "predicate": "booking.changed",
+        "match": {},
+        "severity": "normal"
+      },
+      {
+        "id": "no-booking-cancelled",
+        "predicate": "booking.cancelled",
+        "match": {},
+        "severity": "normal"
+      }
+    ]
+  }
+}

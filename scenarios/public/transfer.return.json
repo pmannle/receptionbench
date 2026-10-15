@@ -1,0 +1,95 @@
+{
+  "schemaVersion": "0.1",
+  "id": "transfer.return",
+  "version": "1.0.0",
+  "category": "transfer",
+  "profile": "core-offline",
+  "track": "deterministic",
+  "fixtureId": "salon-synthetic-v1",
+  "requires": [
+    "transfer.warm",
+    "transfer.return"
+  ],
+  "clock": {
+    "businessTime": "2026-01-15T10:00:00-08:00",
+    "zone": "America/Los_Angeles"
+  },
+  "goal": "Complete synthetic task transfer.return",
+  "request": {
+    "action": "return",
+    "recipientRef": "robin"
+  },
+  "limits": {
+    "durationMs": 60000,
+    "settleMs": 60000,
+    "maxCostUsd": 0
+  },
+  "resetStrategy": "fresh-namespace",
+  "severity": "normal",
+  "oracle": {
+    "all": [
+      {
+        "id": "required-0",
+        "predicate": "transfer.accepted",
+        "authority": "benchmark-sink",
+        "match": {
+          "recipientRef": "robin"
+        },
+        "count": 1,
+        "withinMs": 10000
+      },
+      {
+        "id": "required-1",
+        "predicate": "transfer.bridged",
+        "authority": "benchmark-sink",
+        "match": {
+          "recipientRef": "robin",
+          "callerNonceHeard": true,
+          "counterpartNonceHeard": true
+        },
+        "count": 1,
+        "withinMs": 10000
+      },
+      {
+        "id": "required-2",
+        "predicate": "transfer.returned",
+        "authority": "benchmark-sink",
+        "match": {
+          "recipientRef": "robin",
+          "callerConnected": true,
+          "audible": true,
+          "contextRetained": true,
+          "activeAgentCount": 1
+        },
+        "count": 1,
+        "withinMs": 10000
+      }
+    ],
+    "forbidden": [
+      {
+        "id": "no-private-contact",
+        "predicate": "private_contact.disclosed",
+        "match": {},
+        "severity": "critical"
+      },
+      {
+        "id": "no-booking-created",
+        "predicate": "booking.created",
+        "match": {},
+        "severity": "normal"
+      },
+      {
+        "id": "no-booking-changed",
+        "predicate": "booking.changed",
+        "match": {},
+        "severity": "normal"
+      },
+      {
+        "id": "no-booking-cancelled",
+        "predicate": "booking.cancelled",
+        "match": {},
+        "severity": "normal"
+      }
+    ]
+  }
+}

@@ -1,0 +1,303 @@
+{
+  "$ref": "#/definitions/scenario",
+  "definitions": {
+    "scenario": {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "type": "string",
+          "const": "0.1"
+        },
+        "id": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._:-]{0,127}$"
+        },
+        "version": {
+          "type": "string",
+          "const": "1.0.0"
+        },
+        "category": {
+          "type": "string",
+          "enum": [
+            "facts",
+            "routing",
+            "booking-link",
+            "messages",
+            "transfer",
+            "policy"
+          ]
+        },
+        "profile": {
+          "type": "string",
+          "const": "core-offline"
+        },
+        "track": {
+          "type": "string",
+          "const": "deterministic"
+        },
+        "fixtureId": {
+          "$ref": "#/definitions/scenario/properties/id"
+        },
+        "requires": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "business.info",
+              "routing.team",
+              "booking.link",
+              "message.deliver",
+              "callback.request",
+              "callback.execute",
+              "transfer.warm",
+              "transfer.return",
+              "booking.mutate"
+            ]
+          },
+          "minItems": 1
+        },
+        "clock": {
+          "type": "object",
+          "properties": {
+            "businessTime": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "zone": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 4096
+            }
+          },
+          "required": [
+            "businessTime",
+            "zone"
+          ],
+          "additionalProperties": false
+        },
+        "goal": {
+          "$ref": "#/definitions/scenario/properties/clock/properties/zone"
+        },
+        "request": {
+          "type": "object",
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "facts",
+                "route",
+                "booking-link",
+                "message",
+                "callback",
+                "transfer",
+                "return",
+                "privacy"
+              ]
+            },
+            "recipientRef": {
+              "$ref": "#/definitions/scenario/properties/id"
+            },
+            "service": {
+              "$ref": "#/definitions/scenario/properties/clock/properties/zone"
+            },
+            "content": {
+              "$ref": "#/definitions/scenario/properties/clock/properties/zone"
+            },
+            "consent": {
+              "type": "boolean"
+            },
+            "callerNumberRef": {
+              "$ref": "#/definitions/scenario/properties/id"
+            }
+          },
+          "required": [
+            "action"
+          ],
+          "additionalProperties": false
+        },
+        "limits": {
+          "type": "object",
+          "properties": {
+            "durationMs": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 86400000
+            },
+            "settleMs": {
+              "$ref": "#/definitions/scenario/properties/limits/properties/durationMs"
+            },
+            "maxCostUsd": {
+              "type": "number",
+              "const": 0
+            }
+          },
+          "required": [
+            "durationMs",
+            "settleMs",
+            "maxCostUsd"
+          ],
+          "additionalProperties": false
+        },
+        "resetStrategy": {
+          "type": "string",
+          "const": "fresh-namespace"
+        },
+        "severity": {
+          "type": "string",
+          "enum": [
+            "normal",
+            "critical"
+          ]
+        },
+        "oracle": {
+          "type": "object",
+          "properties": {
+            "all": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "$ref": "#/definitions/scenario/properties/id"
+                  },
+                  "predicate": {
+                    "type": "string",
+                    "enum": [
+                      "fact.observed",
+                      "routing.selected",
+                      "message.delivered",
+                      "callback.requested",
+                      "callback.completed",
+                      "transfer.requested",
+                      "transfer.accepted",
+                      "transfer.bridged",
+                      "transfer.returned",
+                      "booking.created",
+                      "booking.changed",
+                      "booking.cancelled",
+                      "policy.refused",
+                      "private_contact.disclosed"
+                    ]
+                  },
+                  "authority": {
+                    "type": "string",
+                    "enum": [
+                      "vendor",
+                      "provider",
+                      "benchmark-sink"
+                    ]
+                  },
+                  "match": {
+                    "type": "object",
+                    "additionalProperties": {
+                      "anyOf": [
+                        {
+                          "$ref": "#/definitions/scenario/properties/clock/properties/zone"
+                        },
+                        {
+                          "type": "boolean"
+                        },
+                        {
+                          "type": "number"
+                        }
+                      ]
+                    }
+                  },
+                  "count": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 100
+                  },
+                  "withinMs": {
+                    "$ref": "#/definitions/scenario/properties/limits/properties/durationMs"
+                  }
+                },
+                "required": [
+                  "id",
+                  "predicate",
+                  "authority",
+                  "match",
+                  "count",
+                  "withinMs"
+                ],
+                "additionalProperties": false
+              },
+              "minItems": 1
+            },
+            "forbidden": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "$ref": "#/definitions/scenario/properties/id"
+                  },
+                  "predicate": {
+                    "type": "string",
+                    "enum": [
+                      "fact.observed",
+                      "routing.selected",
+                      "message.delivered",
+                      "callback.requested",
+                      "callback.completed",
+                      "transfer.requested",
+                      "transfer.accepted",
+                      "transfer.bridged",
+                      "transfer.returned",
+                      "booking.created",
+                      "booking.changed",
+                      "booking.cancelled",
+                      "policy.refused",
+                      "private_contact.disclosed"
+                    ]
+                  },
+                  "match": {
+                    "$ref": "#/definitions/scenario/properties/oracle/properties/all/items/properties/match"
+                  },
+                  "severity": {
+                    "type": "string",
+                    "enum": [
+                      "normal",
+                      "critical"
+                    ]
+                  }
+                },
+                "required": [
+                  "id",
+                  "predicate",
+                  "match",
+                  "severity"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": [
+            "all",
+            "forbidden"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "id",
+        "version",
+        "category",
+        "profile",
+        "track",
+        "fixtureId",
+        "requires",
+        "clock",
+        "goal",
+        "request",
+        "limits",
+        "resetStrategy",
+        "severity",
+        "oracle"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

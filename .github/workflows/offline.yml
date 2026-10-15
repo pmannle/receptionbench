@@ -1,0 +1,23 @@
+name: Offline conformance
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  offline:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18.20.8
+          cache: npm
+      - run: sudo apt-get update && sudo apt-get install -y sqlite3
+      - run: npm ci --ignore-scripts
+      - run: npm run typecheck
+      - run: npm test
+        env:
+          NODE_OPTIONS: --require=./scripts/offline-guard.cjs
+      - run: npm run schemas
+      - run: git diff --exit-code -- schemas fixtures scenarios
+      - run: node dist/src/cli.js validate scenarios/public
+      - run: node dist/src/cli.js adapter check --adapter fake

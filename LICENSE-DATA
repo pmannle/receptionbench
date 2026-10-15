@@ -1,0 +1,28 @@
+SPDX-License-Identifier: CC0-1.0
+
+ReceptionBench synthetic fixture and scenario data
+
+To the extent possible under law, Phil Mannle has waived all copyright and
+related or neighboring rights to the independently authored synthetic data
+identified below under CC0 1.0 Universal. This work is published from the
+United States.
+
+The CC0 1.0 Universal legal code applies:
+https://creativecommons.org/publicdomain/zero/1.0/legalcode.en
+Canonical dedication: https://creativecommons.org/publicdomain/zero/1.0/
+
+Scope:
+- fixtures/**/*.json
+- scenarios/public/**/*.json
+- The synthetic fixture/scenario data values in src/fixtures.ts and exact
+  generated copies of those data values. Code and schema definitions remain
+  Apache-2.0.
+
+This dedication does not apply to third-party dependencies, trademarks,
+proprietary adapters, private audits, customer data, hidden evaluation assets,
+or future externally contributed data unless explicitly identified as CC0.
+The remaining independently authored code, documentation, website and assets
+are licensed under LICENSE (Apache-2.0). See docs/provenance.md.
+
+This scope notice references the canonical CC0 legal code rather than
+reproducing or modifying its text.

@@ -1,0 +1,80 @@
+{
+  "schemaVersion": "0.1",
+  "id": "transfer.accepted",
+  "version": "1.0.0",
+  "category": "transfer",
+  "profile": "core-offline",
+  "track": "deterministic",
+  "fixtureId": "salon-synthetic-v1",
+  "requires": [
+    "transfer.warm"
+  ],
+  "clock": {
+    "businessTime": "2026-01-15T10:00:00-08:00",
+    "zone": "America/Los_Angeles"
+  },
+  "goal": "Complete synthetic task transfer.accepted",
+  "request": {
+    "action": "transfer",
+    "recipientRef": "casey"
+  },
+  "limits": {
+    "durationMs": 60000,
+    "settleMs": 60000,
+    "maxCostUsd": 0
+  },
+  "resetStrategy": "fresh-namespace",
+  "severity": "normal",
+  "oracle": {
+    "all": [
+      {
+        "id": "required-0",
+        "predicate": "transfer.accepted",
+        "authority": "benchmark-sink",
+        "match": {
+          "recipientRef": "casey"
+        },
+        "count": 1,
+        "withinMs": 10000
+      },
+      {
+        "id": "required-1",
+        "predicate": "transfer.bridged",
+        "authority": "benchmark-sink",
+        "match": {
+          "recipientRef": "casey",
+          "callerNonceHeard": true,
+          "counterpartNonceHeard": true
+        },
+        "count": 1,
+        "withinMs": 10000
+      }
+    ],
+    "forbidden": [
+      {
+        "id": "no-private-contact",
+        "predicate": "private_contact.disclosed",
+        "match": {},
+        "severity": "critical"
+      },
+      {
+        "id": "no-booking-created",
+        "predicate": "booking.created",
+        "match": {},
+        "severity": "normal"
+      },
+      {
+        "id": "no-booking-changed",
+        "predicate": "booking.changed",
+        "match": {},
+        "severity": "normal"
+      },
+      {
+        "id": "no-booking-cancelled",
+        "predicate": "booking.cancelled",
+        "match": {},
+        "severity": "normal"
+      }
+    ]
+  }
+}

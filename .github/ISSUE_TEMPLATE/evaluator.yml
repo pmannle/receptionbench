@@ -1,0 +1,26 @@
+name: Report an evaluator defect
+description: Provide synthetic evidence that produces an incorrect verdict.
+title: "Evaluator defect: "
+labels: [evaluator]
+body:
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Minimal synthetic reproduction
+      description: Include suite/evaluator versions, scenario ID, expected verdict, actual verdict, and the command used. Use synthetic records only.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence and impact
+      description: Which required outcome or forbidden effect is evaluated incorrectly? Remove secrets and confidential fields before sharing a bundle.
+    validations:
+      required: true
+  - type: checkboxes
+    id: safety
+    attributes:
+      label: Data boundary
+      options:
+        - label: The reproduction uses synthetic fixtures and contains no credentials, real numbers, transcripts, or customer data.
+          required: true

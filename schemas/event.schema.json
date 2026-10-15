@@ -1,0 +1,2344 @@
+{
+  "$ref": "#/definitions/event",
+  "definitions": {
+    "event": {
+      "anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "schemaVersion": {
+              "type": "string",
+              "const": "0.1"
+            },
+            "eventId": {
+              "type": "string",
+              "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._:-]{0,127}$"
+            },
+            "trialId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "namespace": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "callId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "legId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "correlationId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "parentEventId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "producerId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "sequence": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "occurredAt": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "receivedAt": {
+              "$ref": "#/definitions/event/anyOf/0/properties/occurredAt"
+            },
+            "monotonicMs": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 86400000
+            },
+            "authority": {
+              "type": "string",
+              "enum": [
+                "vendor",
+                "provider",
+                "benchmark-sink"
+              ]
+            },
+            "evidenceRefs": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 4096
+              },
+              "minItems": 1,
+              "maxItems": 20
+            },
+            "type": {
+              "type": "string",
+              "const": "call.started"
+            },
+            "payload": {
+              "type": "object",
+              "properties": {
+                "callId": {
+                  "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+                }
+              },
+              "required": [
+                "callId"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "schemaVersion",
+            "eventId",
+            "trialId",
+            "namespace",
+            "correlationId",
+            "producerId",
+            "sequence",
+            "occurredAt",
+            "receivedAt",
+            "monotonicMs",
+            "authority",
+            "evidenceRefs",
+            "type",
+            "payload"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "schemaVersion": {
+              "$ref": "#/definitions/event/anyOf/0/properties/schemaVersion"
+            },
+            "eventId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "trialId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "namespace": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "callId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/callId"
+            },
+            "legId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/legId"
+            },
+            "correlationId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "parentEventId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/parentEventId"
+            },
+            "producerId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "sequence": {
+              "$ref": "#/definitions/event/anyOf/0/properties/sequence"
+            },
+            "occurredAt": {
+              "$ref": "#/definitions/event/anyOf/0/properties/occurredAt"
+            },
+            "receivedAt": {
+              "$ref": "#/definitions/event/anyOf/0/properties/occurredAt"
+            },
+            "monotonicMs": {
+              "$ref": "#/definitions/event/anyOf/0/properties/monotonicMs"
+            },
+            "authority": {
+              "$ref": "#/definitions/event/anyOf/0/properties/authority"
+            },
+            "evidenceRefs": {
+              "$ref": "#/definitions/event/anyOf/0/properties/evidenceRefs"
+            },
+            "type": {
+              "type": "string",
+              "const": "call.answered"
+            },
+            "payload": {
+              "type": "object",
+              "properties": {
+                "callId": {
+                  "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+                }
+              },
+              "required": [
+                "callId"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "schemaVersion",
+            "eventId",
+            "trialId",
+            "namespace",
+            "correlationId",
+            "producerId",
+            "sequence",
+            "occurredAt",
+            "receivedAt",
+            "monotonicMs",
+            "authority",
+            "evidenceRefs",
+            "type",
+            "payload"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "schemaVersion": {
+              "$ref": "#/definitions/event/anyOf/0/properties/schemaVersion"
+            },
+            "eventId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "trialId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "namespace": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "callId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/callId"
+            },
+            "legId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/legId"
+            },
+            "correlationId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "parentEventId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/parentEventId"
+            },
+            "producerId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "sequence": {
+              "$ref": "#/definitions/event/anyOf/0/properties/sequence"
+            },
+            "occurredAt": {
+              "$ref": "#/definitions/event/anyOf/0/properties/occurredAt"
+            },
+            "receivedAt": {
+              "$ref": "#/definitions/event/anyOf/0/properties/occurredAt"
+            },
+            "monotonicMs": {
+              "$ref": "#/definitions/event/anyOf/0/properties/monotonicMs"
+            },
+            "authority": {
+              "$ref": "#/definitions/event/anyOf/0/properties/authority"
+            },
+            "evidenceRefs": {
+              "$ref": "#/definitions/event/anyOf/0/properties/evidenceRefs"
+            },
+            "type": {
+              "type": "string",
+              "const": "call.ended"
+            },
+            "payload": {
+              "type": "object",
+              "properties": {
+                "callId": {
+                  "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+                },
+                "reason": {
+                  "$ref": "#/definitions/event/anyOf/0/properties/evidenceRefs/items"
+                }
+              },
+              "required": [
+                "callId",
+                "reason"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "schemaVersion",
+            "eventId",
+            "trialId",
+            "namespace",
+            "correlationId",
+            "producerId",
+            "sequence",
+            "occurredAt",
+            "receivedAt",
+            "monotonicMs",
+            "authority",
+            "evidenceRefs",
+            "type",
+            "payload"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "schemaVersion": {
+              "$ref": "#/definitions/event/anyOf/0/properties/schemaVersion"
+            },
+            "eventId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "trialId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "namespace": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "callId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/callId"
+            },
+            "legId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/legId"
+            },
+            "correlationId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "parentEventId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/parentEventId"
+            },
+            "producerId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "sequence": {
+              "$ref": "#/definitions/event/anyOf/0/properties/sequence"
+            },
+            "occurredAt": {
+              "$ref": "#/definitions/event/anyOf/0/properties/occurredAt"
+            },
+            "receivedAt": {
+              "$ref": "#/definitions/event/anyOf/0/properties/occurredAt"
+            },
+            "monotonicMs": {
+              "$ref": "#/definitions/event/anyOf/0/properties/monotonicMs"
+            },
+            "authority": {
+              "$ref": "#/definitions/event/anyOf/0/properties/authority"
+            },
+            "evidenceRefs": {
+              "$ref": "#/definitions/event/anyOf/0/properties/evidenceRefs"
+            },
+            "type": {
+              "type": "string",
+              "const": "speech.turn"
+            },
+            "payload": {
+              "type": "object",
+              "properties": {
+                "role": {
+                  "type": "string",
+                  "enum": [
+                    "caller",
+                    "assistant",
+                    "counterpart"
+                  ]
+                },
+                "text": {
+                  "$ref": "#/definitions/event/anyOf/0/properties/evidenceRefs/items"
+                }
+              },
+              "required": [
+                "role",
+                "text"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "schemaVersion",
+            "eventId",
+            "trialId",
+            "namespace",
+            "correlationId",
+            "producerId",
+            "sequence",
+            "occurredAt",
+            "receivedAt",
+            "monotonicMs",
+            "authority",
+            "evidenceRefs",
+            "type",
+            "payload"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "schemaVersion": {
+              "$ref": "#/definitions/event/anyOf/0/properties/schemaVersion"
+            },
+            "eventId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "trialId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "namespace": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "callId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/callId"
+            },
+            "legId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/legId"
+            },
+            "correlationId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "parentEventId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/parentEventId"
+            },
+            "producerId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "sequence": {
+              "$ref": "#/definitions/event/anyOf/0/properties/sequence"
+            },
+            "occurredAt": {
+              "$ref": "#/definitions/event/anyOf/0/properties/occurredAt"
+            },
+            "receivedAt": {
+              "$ref": "#/definitions/event/anyOf/0/properties/occurredAt"
+            },
+            "monotonicMs": {
+              "$ref": "#/definitions/event/anyOf/0/properties/monotonicMs"
+            },
+            "authority": {
+              "$ref": "#/definitions/event/anyOf/0/properties/authority"
+            },
+            "evidenceRefs": {
+              "$ref": "#/definitions/event/anyOf/0/properties/evidenceRefs"
+            },
+            "type": {
+              "type": "string",
+              "const": "tool.intent"
+            },
+            "payload": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+                }
+              },
+              "required": [
+                "name"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "schemaVersion",
+            "eventId",
+            "trialId",
+            "namespace",
+            "correlationId",
+            "producerId",
+            "sequence",
+            "occurredAt",
+            "receivedAt",
+            "monotonicMs",
+            "authority",
+            "evidenceRefs",
+            "type",
+            "payload"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "schemaVersion": {
+              "$ref": "#/definitions/event/anyOf/0/properties/schemaVersion"
+            },
+            "eventId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "trialId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "namespace": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "callId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/callId"
+            },
+            "legId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/legId"
+            },
+            "correlationId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "parentEventId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/parentEventId"
+            },
+            "producerId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "sequence": {
+              "$ref": "#/definitions/event/anyOf/0/properties/sequence"
+            },
+            "occurredAt": {
+              "$ref": "#/definitions/event/anyOf/0/properties/occurredAt"
+            },
+            "receivedAt": {
+              "$ref": "#/definitions/event/anyOf/0/properties/occurredAt"
+            },
+            "monotonicMs": {
+              "$ref": "#/definitions/event/anyOf/0/properties/monotonicMs"
+            },
+            "authority": {
+              "$ref": "#/definitions/event/anyOf/0/properties/authority"
+            },
+            "evidenceRefs": {
+              "$ref": "#/definitions/event/anyOf/0/properties/evidenceRefs"
+            },
+            "type": {
+              "type": "string",
+              "const": "tool.result"
+            },
+            "payload": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+                },
+                "success": {
+                  "type": "boolean"
+                }
+              },
+              "required": [
+                "name",
+                "success"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "schemaVersion",
+            "eventId",
+            "trialId",
+            "namespace",
+            "correlationId",
+            "producerId",
+            "sequence",
+            "occurredAt",
+            "receivedAt",
+            "monotonicMs",
+            "authority",
+            "evidenceRefs",
+            "type",
+            "payload"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "schemaVersion": {
+              "$ref": "#/definitions/event/anyOf/0/properties/schemaVersion"
+            },
+            "eventId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "trialId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "namespace": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "callId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/callId"
+            },
+            "legId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/legId"
+            },
+            "correlationId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "parentEventId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/parentEventId"
+            },
+            "producerId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "sequence": {
+              "$ref": "#/definitions/event/anyOf/0/properties/sequence"
+            },
+            "occurredAt": {
+              "$ref": "#/definitions/event/anyOf/0/properties/occurredAt"
+            },
+            "receivedAt": {
+              "$ref": "#/definitions/event/anyOf/0/properties/occurredAt"
+            },
+            "monotonicMs": {
+              "$ref": "#/definitions/event/anyOf/0/properties/monotonicMs"
+            },
+            "authority": {
+              "$ref": "#/definitions/event/anyOf/0/properties/authority"
+            },
+            "evidenceRefs": {
+              "$ref": "#/definitions/event/anyOf/0/properties/evidenceRefs"
+            },
+            "type": {
+              "type": "string",
+              "const": "fact.observed"
+            },
+            "payload": {
+              "type": "object",
+              "properties": {
+                "key": {
+                  "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+                },
+                "value": {
+                  "$ref": "#/definitions/event/anyOf/0/properties/evidenceRefs/items"
+                }
+              },
+              "required": [
+                "key",
+                "value"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "schemaVersion",
+            "eventId",
+            "trialId",
+            "namespace",
+            "correlationId",
+            "producerId",
+            "sequence",
+            "occurredAt",
+            "receivedAt",
+            "monotonicMs",
+            "authority",
+            "evidenceRefs",
+            "type",
+            "payload"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "schemaVersion": {
+              "$ref": "#/definitions/event/anyOf/0/properties/schemaVersion"
+            },
+            "eventId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "trialId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "namespace": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "callId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/callId"
+            },
+            "legId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/legId"
+            },
+            "correlationId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "parentEventId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/parentEventId"
+            },
+            "producerId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "sequence": {
+              "$ref": "#/definitions/event/anyOf/0/properties/sequence"
+            },
+            "occurredAt": {
+              "$ref": "#/definitions/event/anyOf/0/properties/occurredAt"
+            },
+            "receivedAt": {
+              "$ref": "#/definitions/event/anyOf/0/properties/occurredAt"
+            },
+            "monotonicMs": {
+              "$ref": "#/definitions/event/anyOf/0/properties/monotonicMs"
+            },
+            "authority": {
+              "$ref": "#/definitions/event/anyOf/0/properties/authority"
+            },
+            "evidenceRefs": {
+              "$ref": "#/definitions/event/anyOf/0/properties/evidenceRefs"
+            },
+            "type": {
+              "type": "string",
+              "const": "routing.selected"
+            },
+            "payload": {
+              "type": "object",
+              "properties": {
+                "recipientRef": {
+                  "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+                },
+                "service": {
+                  "$ref": "#/definitions/event/anyOf/0/properties/evidenceRefs/items"
+                }
+              },
+              "required": [
+                "recipientRef",
+                "service"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "schemaVersion",
+            "eventId",
+            "trialId",
+            "namespace",
+            "correlationId",
+            "producerId",
+            "sequence",
+            "occurredAt",
+            "receivedAt",
+            "monotonicMs",
+            "authority",
+            "evidenceRefs",
+            "type",
+            "payload"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "schemaVersion": {
+              "$ref": "#/definitions/event/anyOf/0/properties/schemaVersion"
+            },
+            "eventId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "trialId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "namespace": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "callId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/callId"
+            },
+            "legId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/legId"
+            },
+            "correlationId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "parentEventId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/parentEventId"
+            },
+            "producerId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "sequence": {
+              "$ref": "#/definitions/event/anyOf/0/properties/sequence"
+            },
+            "occurredAt": {
+              "$ref": "#/definitions/event/anyOf/0/properties/occurredAt"
+            },
+            "receivedAt": {
+              "$ref": "#/definitions/event/anyOf/0/properties/occurredAt"
+            },
+            "monotonicMs": {
+              "$ref": "#/definitions/event/anyOf/0/properties/monotonicMs"
+            },
+            "authority": {
+              "$ref": "#/definitions/event/anyOf/0/properties/authority"
+            },
+            "evidenceRefs": {
+              "$ref": "#/definitions/event/anyOf/0/properties/evidenceRefs"
+            },
+            "type": {
+              "type": "string",
+              "const": "message.accepted"
+            },
+            "payload": {
+              "type": "object",
+              "properties": {
+                "recipientRef": {
+                  "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+                },
+                "messageId": {
+                  "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+                },
+                "content": {
+                  "$ref": "#/definitions/event/anyOf/0/properties/evidenceRefs/items"
+                },
+                "url": {
+                  "type": "string",
+                  "format": "uri"
+                }
+              },
+              "required": [
+                "recipientRef",
+                "messageId",
+                "content"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "schemaVersion",
+            "eventId",
+            "trialId",
+            "namespace",
+            "correlationId",
+            "producerId",
+            "sequence",
+            "occurredAt",
+            "receivedAt",
+            "monotonicMs",
+            "authority",
+            "evidenceRefs",
+            "type",
+            "payload"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "schemaVersion": {
+              "$ref": "#/definitions/event/anyOf/0/properties/schemaVersion"
+            },
+            "eventId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "trialId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "namespace": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "callId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/callId"
+            },
+            "legId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/legId"
+            },
+            "correlationId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "parentEventId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/parentEventId"
+            },
+            "producerId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "sequence": {
+              "$ref": "#/definitions/event/anyOf/0/properties/sequence"
+            },
+            "occurredAt": {
+              "$ref": "#/definitions/event/anyOf/0/properties/occurredAt"
+            },
+            "receivedAt": {
+              "$ref": "#/definitions/event/anyOf/0/properties/occurredAt"
+            },
+            "monotonicMs": {
+              "$ref": "#/definitions/event/anyOf/0/properties/monotonicMs"
+            },
+            "authority": {
+              "$ref": "#/definitions/event/anyOf/0/properties/authority"
+            },
+            "evidenceRefs": {
+              "$ref": "#/definitions/event/anyOf/0/properties/evidenceRefs"
+            },
+            "type": {
+              "type": "string",
+              "const": "message.delivered"
+            },
+            "payload": {
+              "type": "object",
+              "properties": {
+                "recipientRef": {
+                  "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+                },
+                "messageId": {
+                  "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+                },
+                "content": {
+                  "$ref": "#/definitions/event/anyOf/0/properties/evidenceRefs/items"
+                },
+                "url": {
+                  "$ref": "#/definitions/event/anyOf/8/properties/payload/properties/url"
+                }
+              },
+              "required": [
+                "recipientRef",
+                "messageId",
+                "content"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "schemaVersion",
+            "eventId",
+            "trialId",
+            "namespace",
+            "correlationId",
+            "producerId",
+            "sequence",
+            "occurredAt",
+            "receivedAt",
+            "monotonicMs",
+            "authority",
+            "evidenceRefs",
+            "type",
+            "payload"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "schemaVersion": {
+              "$ref": "#/definitions/event/anyOf/0/properties/schemaVersion"
+            },
+            "eventId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "trialId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "namespace": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "callId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/callId"
+            },
+            "legId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/legId"
+            },
+            "correlationId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "parentEventId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/parentEventId"
+            },
+            "producerId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "sequence": {
+              "$ref": "#/definitions/event/anyOf/0/properties/sequence"
+            },
+            "occurredAt": {
+              "$ref": "#/definitions/event/anyOf/0/properties/occurredAt"
+            },
+            "receivedAt": {
+              "$ref": "#/definitions/event/anyOf/0/properties/occurredAt"
+            },
+            "monotonicMs": {
+              "$ref": "#/definitions/event/anyOf/0/properties/monotonicMs"
+            },
+            "authority": {
+              "$ref": "#/definitions/event/anyOf/0/properties/authority"
+            },
+            "evidenceRefs": {
+              "$ref": "#/definitions/event/anyOf/0/properties/evidenceRefs"
+            },
+            "type": {
+              "type": "string",
+              "const": "message.failed"
+            },
+            "payload": {
+              "type": "object",
+              "properties": {
+                "recipientRef": {
+                  "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+                },
+                "messageId": {
+                  "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+                },
+                "reason": {
+                  "$ref": "#/definitions/event/anyOf/0/properties/evidenceRefs/items"
+                }
+              },
+              "required": [
+                "recipientRef",
+                "messageId",
+                "reason"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "schemaVersion",
+            "eventId",
+            "trialId",
+            "namespace",
+            "correlationId",
+            "producerId",
+            "sequence",
+            "occurredAt",
+            "receivedAt",
+            "monotonicMs",
+            "authority",
+            "evidenceRefs",
+            "type",
+            "payload"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "schemaVersion": {
+              "$ref": "#/definitions/event/anyOf/0/properties/schemaVersion"
+            },
+            "eventId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "trialId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "namespace": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "callId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/callId"
+            },
+            "legId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/legId"
+            },
+            "correlationId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "parentEventId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/parentEventId"
+            },
+            "producerId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "sequence": {
+              "$ref": "#/definitions/event/anyOf/0/properties/sequence"
+            },
+            "occurredAt": {
+              "$ref": "#/definitions/event/anyOf/0/properties/occurredAt"
+            },
+            "receivedAt": {
+              "$ref": "#/definitions/event/anyOf/0/properties/occurredAt"
+            },
+            "monotonicMs": {
+              "$ref": "#/definitions/event/anyOf/0/properties/monotonicMs"
+            },
+            "authority": {
+              "$ref": "#/definitions/event/anyOf/0/properties/authority"
+            },
+            "evidenceRefs": {
+              "$ref": "#/definitions/event/anyOf/0/properties/evidenceRefs"
+            },
+            "type": {
+              "type": "string",
+              "const": "callback.requested"
+            },
+            "payload": {
+              "type": "object",
+              "properties": {
+                "recipientRef": {
+                  "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+                },
+                "callerNumberRef": {
+                  "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+                },
+                "requestId": {
+                  "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+                },
+                "durable": {
+                  "type": "boolean"
+                }
+              },
+              "required": [
+                "recipientRef",
+                "callerNumberRef",
+                "requestId",
+                "durable"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "schemaVersion",
+            "eventId",
+            "trialId",
+            "namespace",
+            "correlationId",
+            "producerId",
+            "sequence",
+            "occurredAt",
+            "receivedAt",
+            "monotonicMs",
+            "authority",
+            "evidenceRefs",
+            "type",
+            "payload"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "schemaVersion": {
+              "$ref": "#/definitions/event/anyOf/0/properties/schemaVersion"
+            },
+            "eventId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "trialId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "namespace": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "callId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/callId"
+            },
+            "legId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/legId"
+            },
+            "correlationId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "parentEventId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/parentEventId"
+            },
+            "producerId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "sequence": {
+              "$ref": "#/definitions/event/anyOf/0/properties/sequence"
+            },
+            "occurredAt": {
+              "$ref": "#/definitions/event/anyOf/0/properties/occurredAt"
+            },
+            "receivedAt": {
+              "$ref": "#/definitions/event/anyOf/0/properties/occurredAt"
+            },
+            "monotonicMs": {
+              "$ref": "#/definitions/event/anyOf/0/properties/monotonicMs"
+            },
+            "authority": {
+              "$ref": "#/definitions/event/anyOf/0/properties/authority"
+            },
+            "evidenceRefs": {
+              "$ref": "#/definitions/event/anyOf/0/properties/evidenceRefs"
+            },
+            "type": {
+              "type": "string",
+              "const": "callback.completed"
+            },
+            "payload": {
+              "type": "object",
+              "properties": {
+                "recipientRef": {
+                  "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+                },
+                "callerNumberRef": {
+                  "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+                },
+                "interactionConfirmed": {
+                  "type": "boolean"
+                }
+              },
+              "required": [
+                "recipientRef",
+                "callerNumberRef",
+                "interactionConfirmed"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "schemaVersion",
+            "eventId",
+            "trialId",
+            "namespace",
+            "correlationId",
+            "producerId",
+            "sequence",
+            "occurredAt",
+            "receivedAt",
+            "monotonicMs",
+            "authority",
+            "evidenceRefs",
+            "type",
+            "payload"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "schemaVersion": {
+              "$ref": "#/definitions/event/anyOf/0/properties/schemaVersion"
+            },
+            "eventId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "trialId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "namespace": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "callId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/callId"
+            },
+            "legId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/legId"
+            },
+            "correlationId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "parentEventId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/parentEventId"
+            },
+            "producerId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "sequence": {
+              "$ref": "#/definitions/event/anyOf/0/properties/sequence"
+            },
+            "occurredAt": {
+              "$ref": "#/definitions/event/anyOf/0/properties/occurredAt"
+            },
+            "receivedAt": {
+              "$ref": "#/definitions/event/anyOf/0/properties/occurredAt"
+            },
+            "monotonicMs": {
+              "$ref": "#/definitions/event/anyOf/0/properties/monotonicMs"
+            },
+            "authority": {
+              "$ref": "#/definitions/event/anyOf/0/properties/authority"
+            },
+            "evidenceRefs": {
+              "$ref": "#/definitions/event/anyOf/0/properties/evidenceRefs"
+            },
+            "type": {
+              "type": "string",
+              "const": "transfer.requested"
+            },
+            "payload": {
+              "type": "object",
+              "properties": {
+                "recipientRef": {
+                  "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+                }
+              },
+              "required": [
+                "recipientRef"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "schemaVersion",
+            "eventId",
+            "trialId",
+            "namespace",
+            "correlationId",
+            "producerId",
+            "sequence",
+            "occurredAt",
+            "receivedAt",
+            "monotonicMs",
+            "authority",
+            "evidenceRefs",
+            "type",
+            "payload"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "schemaVersion": {
+              "$ref": "#/definitions/event/anyOf/0/properties/schemaVersion"
+            },
+            "eventId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "trialId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "namespace": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "callId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/callId"
+            },
+            "legId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/legId"
+            },
+            "correlationId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "parentEventId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/parentEventId"
+            },
+            "producerId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "sequence": {
+              "$ref": "#/definitions/event/anyOf/0/properties/sequence"
+            },
+            "occurredAt": {
+              "$ref": "#/definitions/event/anyOf/0/properties/occurredAt"
+            },
+            "receivedAt": {
+              "$ref": "#/definitions/event/anyOf/0/properties/occurredAt"
+            },
+            "monotonicMs": {
+              "$ref": "#/definitions/event/anyOf/0/properties/monotonicMs"
+            },
+            "authority": {
+              "$ref": "#/definitions/event/anyOf/0/properties/authority"
+            },
+            "evidenceRefs": {
+              "$ref": "#/definitions/event/anyOf/0/properties/evidenceRefs"
+            },
+            "type": {
+              "type": "string",
+              "const": "transfer.ringing"
+            },
+            "payload": {
+              "type": "object",
+              "properties": {
+                "recipientRef": {
+                  "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+                }
+              },
+              "required": [
+                "recipientRef"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "schemaVersion",
+            "eventId",
+            "trialId",
+            "namespace",
+            "correlationId",
+            "producerId",
+            "sequence",
+            "occurredAt",
+            "receivedAt",
+            "monotonicMs",
+            "authority",
+            "evidenceRefs",
+            "type",
+            "payload"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "schemaVersion": {
+              "$ref": "#/definitions/event/anyOf/0/properties/schemaVersion"
+            },
+            "eventId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "trialId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "namespace": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "callId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/callId"
+            },
+            "legId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/legId"
+            },
+            "correlationId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "parentEventId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/parentEventId"
+            },
+            "producerId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "sequence": {
+              "$ref": "#/definitions/event/anyOf/0/properties/sequence"
+            },
+            "occurredAt": {
+              "$ref": "#/definitions/event/anyOf/0/properties/occurredAt"
+            },
+            "receivedAt": {
+              "$ref": "#/definitions/event/anyOf/0/properties/occurredAt"
+            },
+            "monotonicMs": {
+              "$ref": "#/definitions/event/anyOf/0/properties/monotonicMs"
+            },
+            "authority": {
+              "$ref": "#/definitions/event/anyOf/0/properties/authority"
+            },
+            "evidenceRefs": {
+              "$ref": "#/definitions/event/anyOf/0/properties/evidenceRefs"
+            },
+            "type": {
+              "type": "string",
+              "const": "transfer.accepted"
+            },
+            "payload": {
+              "type": "object",
+              "properties": {
+                "recipientRef": {
+                  "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+                },
+                "callerLegId": {
+                  "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+                },
+                "counterpartLegId": {
+                  "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+                }
+              },
+              "required": [
+                "recipientRef",
+                "callerLegId",
+                "counterpartLegId"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "schemaVersion",
+            "eventId",
+            "trialId",
+            "namespace",
+            "correlationId",
+            "producerId",
+            "sequence",
+            "occurredAt",
+            "receivedAt",
+            "monotonicMs",
+            "authority",
+            "evidenceRefs",
+            "type",
+            "payload"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "schemaVersion": {
+              "$ref": "#/definitions/event/anyOf/0/properties/schemaVersion"
+            },
+            "eventId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "trialId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "namespace": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "callId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/callId"
+            },
+            "legId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/legId"
+            },
+            "correlationId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "parentEventId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/parentEventId"
+            },
+            "producerId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "sequence": {
+              "$ref": "#/definitions/event/anyOf/0/properties/sequence"
+            },
+            "occurredAt": {
+              "$ref": "#/definitions/event/anyOf/0/properties/occurredAt"
+            },
+            "receivedAt": {
+              "$ref": "#/definitions/event/anyOf/0/properties/occurredAt"
+            },
+            "monotonicMs": {
+              "$ref": "#/definitions/event/anyOf/0/properties/monotonicMs"
+            },
+            "authority": {
+              "$ref": "#/definitions/event/anyOf/0/properties/authority"
+            },
+            "evidenceRefs": {
+              "$ref": "#/definitions/event/anyOf/0/properties/evidenceRefs"
+            },
+            "type": {
+              "type": "string",
+              "const": "transfer.bridged"
+            },
+            "payload": {
+              "type": "object",
+              "properties": {
+                "recipientRef": {
+                  "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+                },
+                "callerLegId": {
+                  "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+                },
+                "counterpartLegId": {
+                  "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+                },
+                "callerNonceHeard": {
+                  "type": "boolean"
+                },
+                "counterpartNonceHeard": {
+                  "type": "boolean"
+                }
+              },
+              "required": [
+                "recipientRef",
+                "callerLegId",
+                "counterpartLegId",
+                "callerNonceHeard",
+                "counterpartNonceHeard"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "schemaVersion",
+            "eventId",
+            "trialId",
+            "namespace",
+            "correlationId",
+            "producerId",
+            "sequence",
+            "occurredAt",
+            "receivedAt",
+            "monotonicMs",
+            "authority",
+            "evidenceRefs",
+            "type",
+            "payload"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "schemaVersion": {
+              "$ref": "#/definitions/event/anyOf/0/properties/schemaVersion"
+            },
+            "eventId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "trialId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "namespace": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "callId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/callId"
+            },
+            "legId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/legId"
+            },
+            "correlationId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "parentEventId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/parentEventId"
+            },
+            "producerId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "sequence": {
+              "$ref": "#/definitions/event/anyOf/0/properties/sequence"
+            },
+            "occurredAt": {
+              "$ref": "#/definitions/event/anyOf/0/properties/occurredAt"
+            },
+            "receivedAt": {
+              "$ref": "#/definitions/event/anyOf/0/properties/occurredAt"
+            },
+            "monotonicMs": {
+              "$ref": "#/definitions/event/anyOf/0/properties/monotonicMs"
+            },
+            "authority": {
+              "$ref": "#/definitions/event/anyOf/0/properties/authority"
+            },
+            "evidenceRefs": {
+              "$ref": "#/definitions/event/anyOf/0/properties/evidenceRefs"
+            },
+            "type": {
+              "type": "string",
+              "const": "transfer.ended"
+            },
+            "payload": {
+              "type": "object",
+              "properties": {
+                "recipientRef": {
+                  "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+                },
+                "reason": {
+                  "$ref": "#/definitions/event/anyOf/0/properties/evidenceRefs/items"
+                }
+              },
+              "required": [
+                "recipientRef",
+                "reason"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "schemaVersion",
+            "eventId",
+            "trialId",
+            "namespace",
+            "correlationId",
+            "producerId",
+            "sequence",
+            "occurredAt",
+            "receivedAt",
+            "monotonicMs",
+            "authority",
+            "evidenceRefs",
+            "type",
+            "payload"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "schemaVersion": {
+              "$ref": "#/definitions/event/anyOf/0/properties/schemaVersion"
+            },
+            "eventId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "trialId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "namespace": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "callId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/callId"
+            },
+            "legId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/legId"
+            },
+            "correlationId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "parentEventId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/parentEventId"
+            },
+            "producerId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "sequence": {
+              "$ref": "#/definitions/event/anyOf/0/properties/sequence"
+            },
+            "occurredAt": {
+              "$ref": "#/definitions/event/anyOf/0/properties/occurredAt"
+            },
+            "receivedAt": {
+              "$ref": "#/definitions/event/anyOf/0/properties/occurredAt"
+            },
+            "monotonicMs": {
+              "$ref": "#/definitions/event/anyOf/0/properties/monotonicMs"
+            },
+            "authority": {
+              "$ref": "#/definitions/event/anyOf/0/properties/authority"
+            },
+            "evidenceRefs": {
+              "$ref": "#/definitions/event/anyOf/0/properties/evidenceRefs"
+            },
+            "type": {
+              "type": "string",
+              "const": "transfer.returned"
+            },
+            "payload": {
+              "type": "object",
+              "properties": {
+                "recipientRef": {
+                  "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+                },
+                "callerConnected": {
+                  "type": "boolean"
+                },
+                "audible": {
+                  "type": "boolean"
+                },
+                "contextRetained": {
+                  "type": "boolean"
+                },
+                "activeAgentCount": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "required": [
+                "recipientRef",
+                "callerConnected",
+                "audible",
+                "contextRetained",
+                "activeAgentCount"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "schemaVersion",
+            "eventId",
+            "trialId",
+            "namespace",
+            "correlationId",
+            "producerId",
+            "sequence",
+            "occurredAt",
+            "receivedAt",
+            "monotonicMs",
+            "authority",
+            "evidenceRefs",
+            "type",
+            "payload"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "schemaVersion": {
+              "$ref": "#/definitions/event/anyOf/0/properties/schemaVersion"
+            },
+            "eventId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "trialId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "namespace": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "callId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/callId"
+            },
+            "legId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/legId"
+            },
+            "correlationId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "parentEventId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/parentEventId"
+            },
+            "producerId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "sequence": {
+              "$ref": "#/definitions/event/anyOf/0/properties/sequence"
+            },
+            "occurredAt": {
+              "$ref": "#/definitions/event/anyOf/0/properties/occurredAt"
+            },
+            "receivedAt": {
+              "$ref": "#/definitions/event/anyOf/0/properties/occurredAt"
+            },
+            "monotonicMs": {
+              "$ref": "#/definitions/event/anyOf/0/properties/monotonicMs"
+            },
+            "authority": {
+              "$ref": "#/definitions/event/anyOf/0/properties/authority"
+            },
+            "evidenceRefs": {
+              "$ref": "#/definitions/event/anyOf/0/properties/evidenceRefs"
+            },
+            "type": {
+              "type": "string",
+              "const": "booking.created"
+            },
+            "payload": {
+              "type": "object",
+              "properties": {
+                "bookingId": {
+                  "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+                },
+                "recipientRef": {
+                  "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+                },
+                "service": {
+                  "$ref": "#/definitions/event/anyOf/0/properties/evidenceRefs/items"
+                },
+                "start": {
+                  "$ref": "#/definitions/event/anyOf/0/properties/occurredAt"
+                }
+              },
+              "required": [
+                "bookingId",
+                "recipientRef",
+                "service",
+                "start"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "schemaVersion",
+            "eventId",
+            "trialId",
+            "namespace",
+            "correlationId",
+            "producerId",
+            "sequence",
+            "occurredAt",
+            "receivedAt",
+            "monotonicMs",
+            "authority",
+            "evidenceRefs",
+            "type",
+            "payload"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "schemaVersion": {
+              "$ref": "#/definitions/event/anyOf/0/properties/schemaVersion"
+            },
+            "eventId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "trialId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "namespace": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "callId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/callId"
+            },
+            "legId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/legId"
+            },
+            "correlationId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "parentEventId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/parentEventId"
+            },
+            "producerId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "sequence": {
+              "$ref": "#/definitions/event/anyOf/0/properties/sequence"
+            },
+            "occurredAt": {
+              "$ref": "#/definitions/event/anyOf/0/properties/occurredAt"
+            },
+            "receivedAt": {
+              "$ref": "#/definitions/event/anyOf/0/properties/occurredAt"
+            },
+            "monotonicMs": {
+              "$ref": "#/definitions/event/anyOf/0/properties/monotonicMs"
+            },
+            "authority": {
+              "$ref": "#/definitions/event/anyOf/0/properties/authority"
+            },
+            "evidenceRefs": {
+              "$ref": "#/definitions/event/anyOf/0/properties/evidenceRefs"
+            },
+            "type": {
+              "type": "string",
+              "const": "booking.changed"
+            },
+            "payload": {
+              "type": "object",
+              "properties": {
+                "bookingId": {
+                  "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+                },
+                "recipientRef": {
+                  "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+                },
+                "service": {
+                  "$ref": "#/definitions/event/anyOf/0/properties/evidenceRefs/items"
+                },
+                "start": {
+                  "$ref": "#/definitions/event/anyOf/0/properties/occurredAt"
+                }
+              },
+              "required": [
+                "bookingId",
+                "recipientRef",
+                "service",
+                "start"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "schemaVersion",
+            "eventId",
+            "trialId",
+            "namespace",
+            "correlationId",
+            "producerId",
+            "sequence",
+            "occurredAt",
+            "receivedAt",
+            "monotonicMs",
+            "authority",
+            "evidenceRefs",
+            "type",
+            "payload"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "schemaVersion": {
+              "$ref": "#/definitions/event/anyOf/0/properties/schemaVersion"
+            },
+            "eventId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "trialId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "namespace": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "callId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/callId"
+            },
+            "legId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/legId"
+            },
+            "correlationId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "parentEventId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/parentEventId"
+            },
+            "producerId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "sequence": {
+              "$ref": "#/definitions/event/anyOf/0/properties/sequence"
+            },
+            "occurredAt": {
+              "$ref": "#/definitions/event/anyOf/0/properties/occurredAt"
+            },
+            "receivedAt": {
+              "$ref": "#/definitions/event/anyOf/0/properties/occurredAt"
+            },
+            "monotonicMs": {
+              "$ref": "#/definitions/event/anyOf/0/properties/monotonicMs"
+            },
+            "authority": {
+              "$ref": "#/definitions/event/anyOf/0/properties/authority"
+            },
+            "evidenceRefs": {
+              "$ref": "#/definitions/event/anyOf/0/properties/evidenceRefs"
+            },
+            "type": {
+              "type": "string",
+              "const": "booking.cancelled"
+            },
+            "payload": {
+              "type": "object",
+              "properties": {
+                "bookingId": {
+                  "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+                }
+              },
+              "required": [
+                "bookingId"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "schemaVersion",
+            "eventId",
+            "trialId",
+            "namespace",
+            "correlationId",
+            "producerId",
+            "sequence",
+            "occurredAt",
+            "receivedAt",
+            "monotonicMs",
+            "authority",
+            "evidenceRefs",
+            "type",
+            "payload"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "schemaVersion": {
+              "$ref": "#/definitions/event/anyOf/0/properties/schemaVersion"
+            },
+            "eventId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "trialId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "namespace": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "callId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/callId"
+            },
+            "legId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/legId"
+            },
+            "correlationId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "parentEventId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/parentEventId"
+            },
+            "producerId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "sequence": {
+              "$ref": "#/definitions/event/anyOf/0/properties/sequence"
+            },
+            "occurredAt": {
+              "$ref": "#/definitions/event/anyOf/0/properties/occurredAt"
+            },
+            "receivedAt": {
+              "$ref": "#/definitions/event/anyOf/0/properties/occurredAt"
+            },
+            "monotonicMs": {
+              "$ref": "#/definitions/event/anyOf/0/properties/monotonicMs"
+            },
+            "authority": {
+              "$ref": "#/definitions/event/anyOf/0/properties/authority"
+            },
+            "evidenceRefs": {
+              "$ref": "#/definitions/event/anyOf/0/properties/evidenceRefs"
+            },
+            "type": {
+              "type": "string",
+              "const": "policy.refused"
+            },
+            "payload": {
+              "type": "object",
+              "properties": {
+                "reason": {
+                  "type": "string",
+                  "enum": [
+                    "consent",
+                    "private-contact",
+                    "instruction-override"
+                  ]
+                }
+              },
+              "required": [
+                "reason"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "schemaVersion",
+            "eventId",
+            "trialId",
+            "namespace",
+            "correlationId",
+            "producerId",
+            "sequence",
+            "occurredAt",
+            "receivedAt",
+            "monotonicMs",
+            "authority",
+            "evidenceRefs",
+            "type",
+            "payload"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "schemaVersion": {
+              "$ref": "#/definitions/event/anyOf/0/properties/schemaVersion"
+            },
+            "eventId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "trialId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "namespace": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "callId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/callId"
+            },
+            "legId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/legId"
+            },
+            "correlationId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "parentEventId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/parentEventId"
+            },
+            "producerId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "sequence": {
+              "$ref": "#/definitions/event/anyOf/0/properties/sequence"
+            },
+            "occurredAt": {
+              "$ref": "#/definitions/event/anyOf/0/properties/occurredAt"
+            },
+            "receivedAt": {
+              "$ref": "#/definitions/event/anyOf/0/properties/occurredAt"
+            },
+            "monotonicMs": {
+              "$ref": "#/definitions/event/anyOf/0/properties/monotonicMs"
+            },
+            "authority": {
+              "$ref": "#/definitions/event/anyOf/0/properties/authority"
+            },
+            "evidenceRefs": {
+              "$ref": "#/definitions/event/anyOf/0/properties/evidenceRefs"
+            },
+            "type": {
+              "type": "string",
+              "const": "private_contact.disclosed"
+            },
+            "payload": {
+              "type": "object",
+              "properties": {
+                "recipientRef": {
+                  "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+                },
+                "content": {
+                  "$ref": "#/definitions/event/anyOf/0/properties/evidenceRefs/items"
+                }
+              },
+              "required": [
+                "recipientRef",
+                "content"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "schemaVersion",
+            "eventId",
+            "trialId",
+            "namespace",
+            "correlationId",
+            "producerId",
+            "sequence",
+            "occurredAt",
+            "receivedAt",
+            "monotonicMs",
+            "authority",
+            "evidenceRefs",
+            "type",
+            "payload"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "schemaVersion": {
+              "$ref": "#/definitions/event/anyOf/0/properties/schemaVersion"
+            },
+            "eventId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "trialId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "namespace": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "callId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/callId"
+            },
+            "legId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/legId"
+            },
+            "correlationId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "parentEventId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/parentEventId"
+            },
+            "producerId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "sequence": {
+              "$ref": "#/definitions/event/anyOf/0/properties/sequence"
+            },
+            "occurredAt": {
+              "$ref": "#/definitions/event/anyOf/0/properties/occurredAt"
+            },
+            "receivedAt": {
+              "$ref": "#/definitions/event/anyOf/0/properties/occurredAt"
+            },
+            "monotonicMs": {
+              "$ref": "#/definitions/event/anyOf/0/properties/monotonicMs"
+            },
+            "authority": {
+              "$ref": "#/definitions/event/anyOf/0/properties/authority"
+            },
+            "evidenceRefs": {
+              "$ref": "#/definitions/event/anyOf/0/properties/evidenceRefs"
+            },
+            "type": {
+              "type": "string",
+              "const": "cleanup.result"
+            },
+            "payload": {
+              "type": "object",
+              "properties": {
+                "complete": {
+                  "type": "boolean"
+                }
+              },
+              "required": [
+                "complete"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "schemaVersion",
+            "eventId",
+            "trialId",
+            "namespace",
+            "correlationId",
+            "producerId",
+            "sequence",
+            "occurredAt",
+            "receivedAt",
+            "monotonicMs",
+            "authority",
+            "evidenceRefs",
+            "type",
+            "payload"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "schemaVersion": {
+              "$ref": "#/definitions/event/anyOf/0/properties/schemaVersion"
+            },
+            "eventId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "trialId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "namespace": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "callId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/callId"
+            },
+            "legId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/legId"
+            },
+            "correlationId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "parentEventId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/parentEventId"
+            },
+            "producerId": {
+              "$ref": "#/definitions/event/anyOf/0/properties/eventId"
+            },
+            "sequence": {
+              "$ref": "#/definitions/event/anyOf/0/properties/sequence"
+            },
+            "occurredAt": {
+              "$ref": "#/definitions/event/anyOf/0/properties/occurredAt"
+            },
+            "receivedAt": {
+              "$ref": "#/definitions/event/anyOf/0/properties/occurredAt"
+            },
+            "monotonicMs": {
+              "$ref": "#/definitions/event/anyOf/0/properties/monotonicMs"
+            },
+            "authority": {
+              "$ref": "#/definitions/event/anyOf/0/properties/authority"
+            },
+            "evidenceRefs": {
+              "$ref": "#/definitions/event/anyOf/0/properties/evidenceRefs"
+            },
+            "type": {
+              "type": "string",
+              "const": "observation.closed"
+            },
+            "payload": {
+              "type": "object",
+              "properties": {
+                "throughMs": {
+                  "$ref": "#/definitions/event/anyOf/0/properties/monotonicMs"
+                },
+                "healthy": {
+                  "type": "boolean"
+                }
+              },
+              "required": [
+                "throughMs",
+                "healthy"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "schemaVersion",
+            "eventId",
+            "trialId",
+            "namespace",
+            "correlationId",
+            "producerId",
+            "sequence",
+            "occurredAt",
+            "receivedAt",
+            "monotonicMs",
+            "authority",
+            "evidenceRefs",
+            "type",
+            "payload"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}
