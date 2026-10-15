@@ -9,3 +9,6 @@ private/
 .wrangler/
 .cloudflare/
 release/
+
+services/pilot/build/
+.dev.vars*
