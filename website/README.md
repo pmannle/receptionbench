@@ -14,7 +14,7 @@ Files: `index.html` contains the accessible baseline, `styles.css` the responsiv
 
 ## Public release configuration
 
-The owner selected [pmannle/receptionbench](https://github.com/pmannle/receptionbench) and phil.mannle@gmail.com for contribution issues and participation briefs. `config.mjs` contains those confirmed destinations; the HTML also exposes useful links without JavaScript. The site never submits a brief automatically. The repository uses Apache-2.0 for code/documentation/website and CC0-1.0 for independently authored synthetic fixture/scenario data; see the root licenses and provenance notice.
+Use [pmannle/receptionbench](https://github.com/pmannle/receptionbench) issues for contribution proposals and participation briefs. `config.mjs` contains those confirmed destinations; the HTML also exposes useful links without JavaScript. The site never submits a brief automatically. The repository uses Apache-2.0 for code/documentation/website and CC0-1.0 for independently authored synthetic fixture/scenario data; see the root licenses and provenance notice.
 
 Cloudflare hosting at its default URL is authorized, with a custom domain deferred. This source README does not assert that a Git push or deployment has succeeded. Hosting/release automation is handled separately. For static hosting, serve this directory as the web root; no build command or backend is needed. Keep evidence simulations labelled even after real results become available.
 

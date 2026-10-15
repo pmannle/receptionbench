@@ -41,10 +41,9 @@ test('general downloadable brief matches the maintained participation content', 
 test('public participation destinations work without JavaScript and match configuration', async () => {
   const { destinations } = await import(pathToFileURL(`${process.cwd()}/website/config.mjs`).href);
   assert.equal(destinations.repositoryUrl, 'https://github.com/pmannle/receptionbench');
-  assert.equal(destinations.contactEmail, 'phil.mannle@gmail.com');
   const html = readFileSync('website/index.html', 'utf8');
   assert.ok(html.includes(`href="${destinations.repositoryUrl}/issues/new/choose"`));
-  assert.ok(html.includes(`href="mailto:${destinations.contactEmail}"`));
+  assert.doesNotMatch(html, /mailto:/);
   assert.doesNotMatch(html, /destinations are not configured/);
 });
 test('public specification excludes the source-specific inventory and licenses declare separate scopes', () => {

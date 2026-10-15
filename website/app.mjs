@@ -89,16 +89,9 @@ if (destinations.repositoryUrl) {
     }
   } catch { /* Leave the local participation instructions visible. */ }
 }
-if (/^[^\s@?&#]+@[^\s@?&#]+\.[^\s@?&#]+$/.test(destinations.contactEmail)) {
-  const link = document.createElement('a');
-  link.href = `mailto:${destinations.contactEmail}`;
-  link.className = 'text-link';
-  link.textContent = 'Email your brief ↗';
-  links.append(link);
-}
 if (links.childElementCount) {
   document.querySelector('#destination-note').replaceChildren();
   const note = document.createElement('p');
-  note.textContent = 'Open an issue with your proposed adapter or evidence case, or email your brief. Downloading a brief does not submit it or enroll your system.';
+  note.textContent = 'Open an issue with your proposed adapter, evidence case or participation brief. Downloading a brief does not submit it or enroll your system.';
   document.querySelector('#destination-note').append(note);
 }
