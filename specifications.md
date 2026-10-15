@@ -421,6 +421,6 @@ Cross-cutting release tests must demonstrate: repeated setup and cleanup; callba
 
 ## 18. Release decisions and remaining prerequisites
 
-The owner selected [the project repository](https://github.com/pmannle/receptionbench), phil.mannle@gmail.com as the participation contact, Apache-2.0 for code/documentation and CC0-1.0 for synthetic fixture/scenario data. Website hosting is planned on the Cloudflare default URL; no deployed URL is asserted here. Source preparation does not establish a completed push or deployment.
+The owner selected [the project repository](https://github.com/pmannle/receptionbench), GitHub issues for participation, Apache-2.0 for code/documentation and CC0-1.0 for synthetic fixture/scenario data. The community website is hosted at https://receptionbench.pages.dev. Source preparation does not establish a completed push or deployment.
 
 Before dependent live or independent milestones, resolve authorized sandbox targets and spending limits, executed callback scope, the independent hidden-bank operator, and the second vendor/domain. Public source availability does not complete M5/M6 independent evaluation criteria or authorize provider/model runs.

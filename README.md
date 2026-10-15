@@ -45,7 +45,7 @@ REST hosting, real transports and counterpart services, full-stack Receptionaly 
 Code, documentation and the website are licensed under [Apache-2.0](LICENSE); independently authored synthetic fixture/scenario data are dedicated under [CC0-1.0](LICENSE-DATA). See [provenance and scope](docs/provenance.md). `private: true` prevents accidental npm publication. The [public technical specification](specifications.md) is source-neutral; the original source-specific inventory is retained privately outside this repository.
 
 
-A local community website is available under [website/](website/README.md). Run `npm run site:preview` and open `http://127.0.0.1:4173`. It includes an evidence explorer, methodology, offline quickstart and browser-local participation briefs. Contribute through [GitHub issues](https://github.com/pmannle/receptionbench/issues/new/choose) or contact [phil.mannle@gmail.com](mailto:phil.mannle@gmail.com). Cloudflare hosting at its default URL is the selected release destination; the deployed URL will be recorded after successful publication.
+A local community website is available under [website/](website/README.md). Run `npm run site:preview` and open `http://127.0.0.1:4173`. It includes an evidence explorer, methodology, offline quickstart and browser-local participation briefs. Contribute through [GitHub issues](https://github.com/pmannle/receptionbench/issues/new/choose). The community website is live at [receptionbench.pages.dev](https://receptionbench.pages.dev).
 
 The neutral process adapter lets vendor teams test their lifecycle without putting private implementation details in the public core:
 

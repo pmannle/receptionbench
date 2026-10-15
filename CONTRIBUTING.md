@@ -2,7 +2,7 @@
 
 ReceptionBench is building a vendor-neutral way to measure AI receptionist business outcomes. The available scored runner is an offline simulation with synthetic salon cases and a fake adapter. M2 reference-adapter work is underway; real voice transport, a reviewed pilot, a second vendor and independent hidden-test custody remain later milestones. Contributions should preserve those distinctions.
 
-Use [GitHub contribution issues](https://github.com/pmannle/receptionbench/issues/new/choose) for adapters and evaluator cases, or email a participation brief to [phil.mannle@gmail.com](mailto:phil.mannle@gmail.com). The repository includes adapter/evaluator issue templates and a pull request template. There is no enrollment service or public leaderboard submission. The local website at `website/` can generate a participation brief without sending information anywhere.
+Use [GitHub contribution issues](https://github.com/pmannle/receptionbench/issues/new/choose) for adapters, evaluator cases and participation briefs. The repository includes adapter/evaluator issue templates and a pull request template. There is no enrollment service or public leaderboard submission. The local website at `website/` can generate a participation brief without sending information anywhere.
 
 ## Start locally
 

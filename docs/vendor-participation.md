@@ -1,12 +1,12 @@
 # Voluntary vendor participation
 
-ReceptionBench welcomes preparation by teams building receptionist and voice-agent systems. Participation is currently local preparation: the offline core uses a fake adapter, M2 integration is underway and no verified leaderboard, live submission endpoint or certification is available. Use [the project issues](https://github.com/pmannle/receptionbench/issues/new/choose) or [phil.mannle@gmail.com](mailto:phil.mannle@gmail.com) to propose participation. Downloading a brief from the local website does not enroll a team or send information.
+ReceptionBench welcomes preparation by teams building receptionist and voice-agent systems. Participation is currently local preparation: the offline core uses a fake adapter, M2 integration is underway and no verified leaderboard, live submission endpoint or certification is available. Use [the project issues](https://github.com/pmannle/receptionbench/issues/new/choose) to propose participation. Downloading a brief from the local website does not enroll a team or send information.
 
 ## Prepare a participation brief
 
 Record your team/system, desired capability profile, supported and unsupported tasks, version/configuration identifiers, adapter approach and the evidence you can make available. Begin with synthetic English-language reception and salon business facts. Broader domains require their own reviewed packs; current coverage does not establish cross-industry performance.
 
-Explain how recipient outcomes will be observed independently of vendor telemetry. Booking-link handoff, actual booking mutation, callback request/execution and transfer/media/return behavior are distinct capabilities. Include local reproduction and ownership-checked cleanup instructions. Share only synthetic, redistributable examples and appropriately redacted diagnostics through the project issues or participation email.
+Explain how recipient outcomes will be observed independently of vendor telemetry. Booking-link handoff, actual booking mutation, callback request/execution and transfer/media/return behavior are distinct capabilities. Include local reproduction and ownership-checked cleanup instructions. Share only synthetic, redistributable examples and appropriately redacted diagnostics through the project issues.
 
 ## Common evaluation rules
 
