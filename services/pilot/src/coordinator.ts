@@ -5,6 +5,8 @@ import {initialPilotState,admitPilot,markDispatchIntent,markDispatchUnknown,bind
 import {verifyWebhook,ingestReceipt} from '../../../src/pilot/receipts.js';
 import {nextCallerTurn,renderTwiml,type CallerAction} from '../../../src/pilot/caller.js';
 import {TwilioPilotProvider} from '../../../src/pilot/twilio-provider.js';
+import {reconcilePilotEvidence,evaluatePilot} from '../../../src/pilot/evaluate.js';
+import {createPilotBundle} from '../../../src/pilot/replay.js';
 import {json,type Env} from './worker.js';
 const number=z.string().regex(/^\+1[2-9]\d{2}[2-9]\d{6}$/);
 const TargetSchema=z.object({accountSid:z.string().regex(/^AC[a-f0-9]{32}$/),callerNumber:number,targetNumber:number,expectedSender:number}).strict();
@@ -33,9 +35,11 @@ export class PilotCoordinator {
    state.stopped=true;state.version++;await this.save(state);await this.reconcile(state,true);return json({stopped:true},202);
   }
   if(path==='/internal/tick'&&request.method==='POST'){await this.reconcile(state,state.stopped);return json({checked:true});}
-  const match=path.match(/^\/operator\/pilots\/([a-zA-Z0-9_-]+)(?:\/(start|reconcile))?$/);
+  const match=path.match(/^\/operator\/pilots\/([a-zA-Z0-9_-]+)(?:\/(start|reconcile|export|result))?$/);
   if(!match||!state.runs.length||currentRun(state).plan.id!==match[1])return json({error:'not_found'},404);
   if(request.method==='GET'&&!match[2])return json(state);
+  if(request.method==='GET'&&match[2]==='export')return json(createPilotBundle(state));
+  if(request.method==='GET'&&match[2]==='result')return json(evaluatePilot(currentRun(state).plan,state));
   if(request.method==='POST'&&match[2]==='reconcile'){await this.reconcile(state,state.stopped);return json(await this.load());}
   if(request.method==='POST'&&match[2]==='start'){
    try{state=markDispatchIntent(state,now);}catch{return json({error:'dispatch_rejected'},409);}
@@ -88,6 +92,8 @@ export class PilotCoordinator {
  private xml(body:string){return new Response(body,{headers:{'Content-Type':'text/xml','Cache-Control':'no-store'}});}
  private async reconcile(state:PilotState,stop:boolean):Promise<void>{
   if(!state.runs.length)return;const run=currentRun(state),now=Date.now(),provider=this.provider(),c=this.config();
+  if(run.reconciliationAttempts>=10){await this.ctx.storage.deleteAlarm();return;}
+  run.reconciliationAttempts++;await this.save(state);
   try{
    if(!run.callId&&['intent','unknown'].includes(run.dispatch)){
     const calls=await provider.findCalls(c.callerNumber,c.targetNumber,run.admittedAt);
@@ -101,11 +107,21 @@ export class PilotCoordinator {
     if(!call.terminal&&(stop||now>=active.deadlineAt)){await provider.stopCall(active.callId);call=await provider.getCall(active.callId);}
     active.callTerminal=call.terminal;active.cleanupComplete=call.terminal;
    }else if(active.dispatch==='pending'&&(stop||now>=active.deadlineAt)){active.callTerminal=true;active.cleanupComplete=true;active.callerLimited=true;}
-   // Task 4 adds receipt reconciliation and evidence closure; a timer alone is never healthy evidence.
+   if(active.callId&&active.cleanupComplete&&now>=active.quarantineUntil){
+    const call=await provider.getCall(active.callId);
+    const messages=await provider.listReceipts({from:c.expectedSender,to:c.callerNumber,sinceMs:active.admittedAt,untilMs:active.quarantineUntil});
+    let knownProviderCostCents:number|null=null;
+    try{knownProviderCostCents=(await provider.reconcileUsage({from:c.callerNumber,to:c.targetNumber,sinceMs:active.admittedAt,untilMs:now})).costCents;}catch{ /* Retain full reservation; usage is visibly uncertain. */ }
+    const snapshot={atMs:now,config:c,call,messages,knownProviderCostCents};
+    const key=`raw/${active.plan.id}/reconciliation-${now}.json`;
+    await this.env.EVIDENCE.put(key,JSON.stringify(snapshot),{httpMetadata:{contentType:'application/json'}});
+    state=reconcilePilotEvidence(state,snapshot);currentRun(state).evidenceRefs.push(key);
+   }
    state.version++;await this.save(state);
-   if(!active.cleanupComplete||now<active.quarantineUntil)await this.ctx.storage.setAlarm(now+60000);
+   if((!active.cleanupComplete||now<active.quarantineUntil)&&currentRun(state).reconciliationAttempts<10)await this.ctx.storage.setAlarm(now+60000);
+   else await this.ctx.storage.deleteAlarm();
   }catch{
-   const active=currentRun(state);if(active.errors.length<100)active.errors.push('reconciliation_unavailable');active.observationHealthy=false;await this.save(state);await this.ctx.storage.setAlarm(now+60000);
+   const active=currentRun(state);if(active.errors.length<100)active.errors.push('reconciliation_unavailable');active.observationHealthy=false;await this.save(state);if(active.reconciliationAttempts<10)await this.ctx.storage.setAlarm(now+60000);else await this.ctx.storage.deleteAlarm();
   }
  }
  async alarm(){await this.ctx.blockConcurrencyWhile(async()=>{const state=await this.load();await this.reconcile(state,state.stopped);});}

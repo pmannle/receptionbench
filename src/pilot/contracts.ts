@@ -12,11 +12,18 @@ export const PilotPlanBodySchema=z.object({
 }).strict();
 export const PilotPlanSchema=PilotPlanBodySchema.extend({digest:z.string().regex(/^[a-f0-9]{64}$/)}).strict();
 export type PilotPlan=z.infer<typeof PilotPlanSchema>;
+export const PilotEndpointConfigSchema=z.object({accountSid:z.string().regex(/^AC[a-f0-9]{32}$/),callerNumber:z.string().regex(/^\+[1-9]\d{7,14}$/),targetNumber:z.string().regex(/^\+[1-9]\d{7,14}$/),expectedSender:z.string().regex(/^\+[1-9]\d{7,14}$/)}).strict();
+export const ReconciliationSchema=z.object({
+ atMs:epoch,config:PilotEndpointConfigSchema,
+ call:z.object({id:z.string().regex(/^CA[a-f0-9]{32}$/),from:z.string(),to:z.string(),status:z.string(),terminal:z.boolean(),price:z.string().nullable(),priceUnit:z.string().nullable(),durationSeconds:z.number().nonnegative().nullable()}).strict(),
+ messages:z.array(z.object({id:z.string().regex(/^SM[a-f0-9]{32}$/),from:z.string(),to:z.string(),body:z.string().max(16384),sentAt:epoch,price:z.string().nullable(),priceUnit:z.string().nullable()}).strict()).max(100),knownProviderCostCents:cents.nullable()
+}).strict();
+export type PilotReconciliation=z.infer<typeof ReconciliationSchema>;
 export const PilotRunSchema=z.object({
   plan:PilotPlanSchema,admittedAt:epoch,deadlineAt:epoch,settleUntil:epoch,quarantineUntil:epoch,
   dispatch:z.enum(['pending','intent','unknown','confirmed']),callId:z.string().regex(/^CA[a-f0-9]{32}$/).optional(),
   callTerminal:z.boolean(),cleanupComplete:z.boolean(),observationHealthy:z.boolean(),callerLimited:z.boolean(),
-  costCents:cents.nullable(),callerStage:z.enum(['greeting','request','consent','done']),turns:z.number().int().min(0).max(4),
+  costCents:cents.nullable(),budgetHoldFinal:z.boolean().default(false),reconciliation:ReconciliationSchema.nullable().default(null),reconciliationAttempts:z.number().int().nonnegative().max(10).default(0),callerStage:z.enum(['greeting','request','consent','done']),turns:z.number().int().min(0).max(4),
   receipts:z.array(z.object({id:z.string(),from:z.string(),to:z.string(),body:z.string().max(16384),receivedAt:epoch,source:z.enum(['webhook','reconciliation'])}).strict()).max(100),
   webhookDigests:z.record(z.string()),callbackReplies:z.record(z.string()),lastCallSequence:z.number().int(),
   errors:z.array(z.string().max(100)).max(100),evidenceRefs:z.array(z.string()).max(500)

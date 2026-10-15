@@ -56,6 +56,10 @@ test('durable admission dispatches only once and validates real SDK signatures i
  assert.equal((await mf.dispatchFetch(url,{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded','X-Twilio-Signature':signature},body:new URLSearchParams(params)})).status,200);
  const observed=await(await request('/operator/pilots/pilot-one')).json();
  assert.equal(observed.runs[0].receipts.length,1);
+ const result=await(await request('/operator/pilots/pilot-one/result')).json();
+ assert.equal(result.verdict,'inconclusive');assert.equal(result.ranked,false);
+ assert.doesNotMatch(JSON.stringify(result),/1555555010|Book https/);
+ assert.equal((await request('/operator/pilots/pilot-one/export',{authorized:false})).status,401);
  assert.equal((await request('/operator/pilots/wrong/start',{method:'POST'})).status,404);
 });
 test('ambiguous provider response persists uncertainty and blocks redial',async t=>{

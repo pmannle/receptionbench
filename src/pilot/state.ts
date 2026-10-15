@@ -17,10 +17,10 @@ export function admitPilot(input:unknown,stateInput:PilotState,nowMs:number):Pil
   if(state.stopped)throw new Error('Pilot stopped');
   if(nowMs+480000>=plan.authorizedUntil)throw new Error('Authorization expired or too short');
   if(state.runs.some(r=>r.plan.id===plan.id))throw new Error('Duplicate pilot');
-  if(state.runs.some(r=>!r.cleanupComplete||!r.callTerminal||r.costCents===null||nowMs<=r.quarantineUntil))throw new Error('Exclusive number lease retained');
+  if(state.runs.some(r=>!r.cleanupComplete||!r.callTerminal||(r.costCents===null&&!r.budgetHoldFinal)||nowMs<=r.quarantineUntil))throw new Error('Exclusive number lease retained');
   if(committedCents(state)+plan.reservationCents>state.budgetCents)throw new Error('Pilot budget exhausted');
   const next=structuredClone(state);next.version++;
-  next.runs.push({plan,admittedAt:nowMs,deadlineAt:nowMs+120000,settleUntil:nowMs+180000,quarantineUntil:nowMs+480000,dispatch:'pending',callTerminal:false,cleanupComplete:false,observationHealthy:false,callerLimited:false,costCents:null,callerStage:'greeting',turns:0,receipts:[],webhookDigests:{},callbackReplies:{},lastCallSequence:-1,errors:[],evidenceRefs:[]});
+  next.runs.push({plan,admittedAt:nowMs,deadlineAt:nowMs+120000,settleUntil:nowMs+180000,quarantineUntil:nowMs+480000,dispatch:'pending',callTerminal:false,cleanupComplete:false,observationHealthy:false,callerLimited:false,costCents:null,budgetHoldFinal:false,reconciliation:null,reconciliationAttempts:0,callerStage:'greeting',turns:0,receipts:[],webhookDigests:{},callbackReplies:{},lastCallSequence:-1,errors:[],evidenceRefs:[]});
   return PilotStateSchema.parse(next);
 }
 export function markDispatchIntent(input:PilotState,nowMs:number):PilotState {
