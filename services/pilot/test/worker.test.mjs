@@ -10,7 +10,7 @@ const stable=v=>Array.isArray(v)?v.map(stable):v&&typeof v==='object'?Object.fro
 const hash=v=>createHash('sha256').update(JSON.stringify(stable(v))).digest('hex');
 const account='AC'+'1'.repeat(32),call='CA'+'2'.repeat(32),origin='https://pilot.example.com',auth='synthetic-token',operator='synthetic-operator-token-32-characters';
 const config={accountSid:account,callerNumber:'+15555550101',targetNumber:'+15555550102',expectedSender:'+15555550102'};
-const frozen=()=>{const p={schemaVersion:'live-pilot-0.1',profile:'booking-link-pstn-smoke',id:'pilot-one',kind:'scored',authorizedUntil:Date.now()+3600000,configDigest:hash(config),caller:{recipientName:'Example'},oracle:{bookingUrl:'https://example.com/book'},reservationCents:400,limits:{callSeconds:120,settleSeconds:60,quarantineSeconds:300,maxTurns:4,maxRedials:0}};return {...p,digest:hash(p)};};
+const frozen=()=>{const p={schemaVersion:'live-pilot-0.1',profile:'booking-link-pstn-smoke',id:'pilot-one',kind:'scored',authorizedUntil:Date.now()+3600000,configDigest:hash(config),caller:{recipientName:'Example'},oracle:{bookingUrl:'https://example.com/book'},reservationCents:400,limits:{callSeconds:120,settleSeconds:60,quarantineSeconds:300,retentionSeconds:604800,maxTurns:4,maxRedials:0}};return {...p,digest:hash(p)};};
 await mkdir('build',{recursive:true});
 async function setup(t,{uncertain=false,persist}={}){
  const dir=persist??await mkdtemp(join(tmpdir(),'receptionbench-worker-'));
@@ -30,10 +30,11 @@ async function setup(t,{uncertain=false,persist}={}){
   }
   return new Response('synthetic unavailable provider',{status:503});
  };
- const mf=new Miniflare({...convertV4MiniflareOptions({name:'receptionbench-pilot-test',modules:true,scriptPath:'build/worker.js',compatibilityDate:'2025-10-01',compatibilityFlags:['nodejs_compat'],durableObjects:{PILOT:{className:'PilotCoordinator',useSQLite:true}},durableObjectsPersist:join(dir,'do'),r2Buckets:['EVIDENCE'],r2Persist:join(dir,'r2'),outboundService,bindings:{CANONICAL_ORIGIN:origin,TWILIO_AUTH_TOKEN:auth,OPERATOR_TOKEN:operator,TARGET_CONFIG_JSON:JSON.stringify(config),BUDGET_CENTS:'1000',SETUP_CENTS:'115'}}),resourcePersistencePath:dir});
+ const options=targetConfig=>({...convertV4MiniflareOptions({name:'receptionbench-pilot-test',modules:true,scriptPath:'build/worker.js',compatibilityDate:'2025-10-01',compatibilityFlags:['nodejs_compat'],durableObjects:{PILOT:{className:'PilotCoordinator',useSQLite:true}},durableObjectsPersist:join(dir,'do'),r2Buckets:['EVIDENCE'],r2Persist:join(dir,'r2'),outboundService,bindings:{CANONICAL_ORIGIN:origin,TWILIO_AUTH_TOKEN:auth,OPERATOR_TOKEN:operator,TARGET_CONFIG_JSON:JSON.stringify(targetConfig),BUDGET_CENTS:'1000',SETUP_CENTS:'115'}}),resourcePersistencePath:dir});
+ const mf=new Miniflare(options(config));
  t.after(async()=>{await mf.dispose();if(!persist)await rm(dir,{recursive:true,force:true});});
  const request=(path,{body,method=body?'POST':'GET',authorized=true}={})=>mf.dispatchFetch(origin+path,{method,headers:{...(authorized?{Authorization:`Bearer ${operator}`}:{}) ,...(body?{'Content-Type':'application/json'}:{})},...(body?{body:JSON.stringify(body)}:{})});
- return {mf,request,dir,outbound};
+ return {mf,request,dir,outbound,updateConfig:target=>mf.setOptions(options(target))};
 }
 test('operator API rejects anonymous admission and altered or arbitrary target input',async t=>{
  const {request}=await setup(t);
@@ -90,4 +91,41 @@ test('unknown dispatch survives a full runtime restart with no redial',async t=>
  const second=await setup(t,{persist:dir});
  assert.equal((await second.request('/operator/pilots/pilot-one/start',{method:'POST'})).status,409);
  assert.equal((await(await second.request('/operator/pilots/pilot-one')).json()).runs[0].dispatch,'unknown');
+});
+
+test('ten successful reconciliations cannot disable explicit termination',async t=>{
+ const {request}=await setup(t);
+ await request('/operator/pilots',{body:frozen()});await request('/operator/pilots/pilot-one/start',{method:'POST'});
+ for(let i=0;i<10;i++)assert.equal((await request('/operator/pilots/pilot-one/reconcile',{method:'POST'})).status,200);
+ await request('/operator/stop',{method:'POST'});
+ const state=await(await request('/operator/pilots/pilot-one')).json();
+ assert.equal(state.runs[0].cleanupComplete,true);
+});
+test('cached caller request is replaced with hangup after stop',async t=>{
+ const {mf,request}=await setup(t);
+ await request('/operator/pilots',{body:frozen()});await request('/operator/pilots/pilot-one/start',{method:'POST'});
+ const url=origin+'/webhooks/twilio/speech?pilotId=pilot-one&turn=0',params={AccountSid:account,CallSid:call,From:config.callerNumber,To:config.targetNumber,SpeechResult:'Hello, how can I help?'};
+ const deliver=()=>mf.dispatchFetch(url,{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded','X-Twilio-Signature':twilio.getExpectedTwilioSignature(auth,url,params)},body:new URLSearchParams(params)});
+ assert.match(await(await deliver()).text(),/booking link/);
+ await request('/operator/stop',{method:'POST'});
+ const replay=await(await deliver()).text();assert.match(replay,/<Hangup/);assert.doesNotMatch(replay,/booking link/);
+});
+test('dedicated inbound voice rejects idle and active calls without trial evidence',async t=>{
+ const {mf,request}=await setup(t);
+ const url=origin+'/webhooks/twilio/reject',params={AccountSid:account,CallSid:'CA'+'5'.repeat(32),From:'+15555550999',To:config.callerNumber};
+ const deliver=()=>mf.dispatchFetch(url,{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded','X-Twilio-Signature':twilio.getExpectedTwilioSignature(auth,url,params)},body:new URLSearchParams(params)});
+ assert.match(await(await deliver()).text(),/<Reject/);
+ await request('/operator/pilots',{body:frozen()});assert.match(await(await deliver()).text(),/<Reject/);
+ assert.equal((await(await request('/operator/pilots/pilot-one')).json()).runs[0].evidenceRefs.length,0);
+});
+
+test('configuration drift blocks dispatch and retained context still permits owned cleanup',async t=>{
+ const first=await setup(t);await first.request('/operator/pilots',{body:frozen()});
+ await first.updateConfig({...config,targetNumber:'+15555550998'});
+ assert.equal((await first.request('/operator/pilots/pilot-one/start',{method:'POST'})).status,409);
+ assert.equal(first.outbound.length,0);
+ const second=await setup(t);await second.request('/operator/pilots',{body:frozen()});await second.request('/operator/pilots/pilot-one/start',{method:'POST'});
+ await second.updateConfig({...config,targetNumber:'+15555550998'});
+ await second.request('/operator/stop',{method:'POST'});
+ assert.equal((await(await second.request('/operator/pilots/pilot-one')).json()).runs[0].cleanupComplete,true);
 });

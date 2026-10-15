@@ -13,7 +13,7 @@ export default {
   if(url.pathname.startsWith('/operator/')){
    const supplied=Buffer.from(request.headers.get('Authorization')??''),expected=Buffer.from(`Bearer ${env.OPERATOR_TOKEN}`);
    if(!env.OPERATOR_TOKEN||env.OPERATOR_TOKEN.length<32||supplied.length!==expected.length||!timingSafeEqual(supplied,expected))return json({error:'unauthorized'},401);
-  }else if(!/^\/webhooks\/twilio\/(voice|speech|status|sms)$/.test(url.pathname))return json({error:'not_found'},404);
+  }else if(!/^\/webhooks\/twilio\/(voice|speech|status|sms|reject)$/.test(url.pathname))return json({error:'not_found'},404);
   return env.PILOT.get(env.PILOT.idFromName('single-pilot-coordinator')).fetch(request);
  },
  async scheduled(_event:ScheduledEvent,env:Env,ctx:ExecutionContext){

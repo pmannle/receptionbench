@@ -2,6 +2,7 @@ export interface CallerState {stage:'greeting'|'request'|'consent'|'done';turns:
 export interface CallerObservation {text:string;nowMs:number}
 export type CallerAction={kind:'listen'}|{kind:'speak';text:string}|{kind:'hangup'};
 export interface CallerTransition {stage:CallerState['stage'];turns:number;limited:boolean;action:CallerAction}
+export function callerReplyAllowed(state:{stopped:boolean;deadlineAt:number;quarantineUntil:number},nowMs:number):boolean{return !state.stopped&&nowMs<state.deadlineAt&&nowMs<=state.quarantineUntil;}
 export function nextCallerTurn(state:CallerState,observation:CallerObservation):CallerTransition {
   const done=(limited:boolean):CallerTransition=>({stage:'done',turns:state.turns,limited,action:{kind:'hangup'}});
   if(state.stage==='done')return done(false);

@@ -1,11 +1,13 @@
 import {z} from 'zod/v3';
 import {hash} from '../hash.js';
 import {PilotPlanSchema,PilotStateSchema,ReconciliationSchema,currentRun,type PilotPlan,type PilotState,type PilotReconciliation} from './contracts.js';
-export function reconcilePilotEvidence(input:PilotState,snapshotInput:PilotReconciliation):PilotState {
+export function reconcilePilotEvidence(input:PilotState,snapshotInput:unknown):PilotState {
  const state=PilotStateSchema.parse(input),snapshot=ReconciliationSchema.parse(snapshotInput),run=currentRun(state),config=snapshot.config;
  if(hash(config)!==run.plan.configDigest||snapshot.call.id!==run.callId||snapshot.call.from!==config.callerNumber||snapshot.call.to!==config.targetNumber)throw new Error('Reconciliation scope mismatch');
  if(snapshot.atMs<run.admittedAt)throw new Error('Invalid reconciliation clock');
  run.reconciliation=snapshot;run.callTerminal=snapshot.call.terminal;run.cleanupComplete=snapshot.call.terminal;
+ if(snapshot.knownProviderCostCents!==null){const day=hash(snapshot.config.accountSid)+':'+new Date(snapshot.atMs).toISOString().slice(0,10);state.knownProviderUsage[day]=Math.max(state.knownProviderUsage[day]??0,snapshot.knownProviderCostCents);}
+ if(Object.values(state.knownProviderUsage).reduce((a,b)=>a+b,0)>=state.budgetCents)state.stopped=true;
  let healthy=snapshot.atMs>=run.quarantineUntil&&snapshot.call.terminal&&run.errors.length===0;
  const byId=new Map(run.receipts.map(r=>[r.id,r]));
  if(byId.size!==run.receipts.length||new Set(snapshot.messages.map(m=>m.id)).size!==snapshot.messages.length)healthy=false;

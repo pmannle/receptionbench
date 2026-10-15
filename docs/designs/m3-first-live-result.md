@@ -1,6 +1,6 @@
 # M3: first live result and public results registry
 
-Status: proposed design for review. No live provider resources have been provisioned. This document does not admit a run or authorize spending.
+Status: approved for implementation by the owner. No live provider resources have been provisioned. This document does not admit a run or authorize spending.
 
 ## Intended result
 

@@ -23,6 +23,44 @@
         "stopped": {
           "type": "boolean"
         },
+        "knownProviderUsage": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          },
+          "default": {}
+        },
+        "retired": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[a-zA-Z0-9][a-zA-Z0-9_-]{0,79}$"
+              },
+              "planDigest": {
+                "type": "string"
+              },
+              "heldCents": {
+                "$ref": "#/definitions/pilot-state/properties/budgetCents"
+              },
+              "cleanupComplete": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "id",
+              "planDigest",
+              "heldCents",
+              "cleanupComplete"
+            ],
+            "additionalProperties": false
+          },
+          "default": []
+        },
         "runs": {
           "type": "array",
           "items": {
@@ -40,8 +78,7 @@
                     "const": "booking-link-pstn-smoke"
                   },
                   "id": {
-                    "type": "string",
-                    "pattern": "^[a-zA-Z0-9][a-zA-Z0-9_-]{0,79}$"
+                    "$ref": "#/definitions/pilot-state/properties/retired/items/properties/id"
                   },
                   "kind": {
                     "type": "string",
@@ -103,6 +140,10 @@
                         "type": "number",
                         "const": 300
                       },
+                      "retentionSeconds": {
+                        "type": "number",
+                        "const": 604800
+                      },
                       "maxTurns": {
                         "type": "number",
                         "const": 4
@@ -116,6 +157,7 @@
                       "callSeconds",
                       "settleSeconds",
                       "quarantineSeconds",
+                      "retentionSeconds",
                       "maxTurns",
                       "maxRedials"
                     ],
@@ -152,6 +194,45 @@
               },
               "quarantineUntil": {
                 "$ref": "#/definitions/pilot-state/properties/runs/items/properties/plan/properties/authorizedUntil"
+              },
+              "retainedUntil": {
+                "$ref": "#/definitions/pilot-state/properties/runs/items/properties/plan/properties/authorizedUntil"
+              },
+              "boundConfig": {
+                "anyOf": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "accountSid": {
+                        "type": "string",
+                        "pattern": "^AC[a-f0-9]{32}$"
+                      },
+                      "callerNumber": {
+                        "type": "string",
+                        "pattern": "^\\+[1-9]\\d{7,14}$"
+                      },
+                      "targetNumber": {
+                        "type": "string",
+                        "pattern": "^\\+[1-9]\\d{7,14}$"
+                      },
+                      "expectedSender": {
+                        "type": "string",
+                        "pattern": "^\\+[1-9]\\d{7,14}$"
+                      }
+                    },
+                    "required": [
+                      "accountSid",
+                      "callerNumber",
+                      "targetNumber",
+                      "expectedSender"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "default": null
               },
               "dispatch": {
                 "type": "string",
@@ -201,32 +282,7 @@
                         "$ref": "#/definitions/pilot-state/properties/runs/items/properties/plan/properties/authorizedUntil"
                       },
                       "config": {
-                        "type": "object",
-                        "properties": {
-                          "accountSid": {
-                            "type": "string",
-                            "pattern": "^AC[a-f0-9]{32}$"
-                          },
-                          "callerNumber": {
-                            "type": "string",
-                            "pattern": "^\\+[1-9]\\d{7,14}$"
-                          },
-                          "targetNumber": {
-                            "type": "string",
-                            "pattern": "^\\+[1-9]\\d{7,14}$"
-                          },
-                          "expectedSender": {
-                            "type": "string",
-                            "pattern": "^\\+[1-9]\\d{7,14}$"
-                          }
-                        },
-                        "required": [
-                          "accountSid",
-                          "callerNumber",
-                          "targetNumber",
-                          "expectedSender"
-                        ],
-                        "additionalProperties": false
+                        "$ref": "#/definitions/pilot-state/properties/runs/items/properties/boundConfig/anyOf/0"
                       },
                       "call": {
                         "type": "object",
@@ -242,7 +298,18 @@
                             "type": "string"
                           },
                           "status": {
-                            "type": "string"
+                            "type": "string",
+                            "enum": [
+                              "queued",
+                              "initiated",
+                              "ringing",
+                              "in-progress",
+                              "completed",
+                              "busy",
+                              "failed",
+                              "no-answer",
+                              "canceled"
+                            ]
                           },
                           "terminal": {
                             "type": "boolean"
@@ -363,6 +430,12 @@
                 "maximum": 10,
                 "default": 0
               },
+              "terminationAttempts": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 10,
+                "default": 0
+              },
               "callerStage": {
                 "type": "string",
                 "enum": [
@@ -455,6 +528,7 @@
               "deadlineAt",
               "settleUntil",
               "quarantineUntil",
+              "retainedUntil",
               "dispatch",
               "callTerminal",
               "cleanupComplete",

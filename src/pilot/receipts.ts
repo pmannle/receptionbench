@@ -3,12 +3,12 @@ import { hash } from '../hash.js';
 import { PilotStateSchema,currentRun,type PilotState } from './contracts.js';
 export interface WebhookConfig {canonicalOrigin:string;accountSid:string;authToken:string}
 export interface EndpointConfig {callerNumber:string;targetNumber:string;expectedSender:string}
-export interface VerifiedWebhook {kind:'sms'|'voice'|'speech'|'status';pilotId?:string;turn:string;form:Record<string,string>;digest:string}
+export interface VerifiedWebhook {kind:'sms'|'voice'|'speech'|'status'|'reject';pilotId?:string;turn:string;form:Record<string,string>;digest:string}
 export async function verifyWebhook(request:Request,config:WebhookConfig):Promise<VerifiedWebhook> {
   const url=new URL(request.url),origin=new URL(config.canonicalOrigin);
   if(origin.protocol!=='https:'||origin.pathname!=='/'||url.origin!==origin.origin)throw new Error('Invalid canonical origin');
   const kind=url.pathname.split('/').at(-1);
-  if(request.method!=='POST'||!['sms','voice','speech','status'].includes(kind??'')||url.pathname!==`/webhooks/twilio/${kind}`)throw new Error('Invalid webhook route');
+  if(request.method!=='POST'||!['sms','voice','speech','status','reject'].includes(kind??'')||url.pathname!==`/webhooks/twilio/${kind}`)throw new Error('Invalid webhook route');
   if(!request.headers.get('content-type')?.toLowerCase().startsWith('application/x-www-form-urlencoded'))throw new Error('Invalid webhook content type');
   const reader=request.body?.getReader();if(!reader)throw new Error('Missing webhook body');
   let body='',length=0;const decoder=new TextDecoder();
@@ -22,6 +22,7 @@ export async function verifyWebhook(request:Request,config:WebhookConfig):Promis
   return {kind:kind as VerifiedWebhook['kind'],pilotId:url.searchParams.get('pilotId')??undefined,turn:url.searchParams.get('turn')??'0',form,digest:hash({url:url.href,form})};
 }
 export function ingestReceipt(input:PilotState,receipt:VerifiedWebhook,endpoints:EndpointConfig,nowMs:number):PilotState {
+  if(receipt.kind==='reject')throw new Error('Inbound rejection is not trial evidence');
   const state=PilotStateSchema.parse(input),run=currentRun(state),f=receipt.form;
   if(receipt.pilotId&&receipt.pilotId!==run.plan.id)throw new Error('Callback scope mismatch');
   if(nowMs<run.admittedAt||nowMs>run.quarantineUntil)throw new Error('Callback lease expired');
